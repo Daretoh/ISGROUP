@@ -2309,6 +2309,44 @@ ul { list-style: none; }
 }
 
 /* ========================================
+   MARCAS / PROVEEDORES
+   ======================================== */
+.marcas {
+  padding: 60px 0;
+  overflow: hidden;
+}
+
+.marcas-track {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marcas-strip {
+  display: flex;
+  gap: 80px;
+  align-items: center;
+  width: max-content;
+  animation: marquee 18s linear infinite;
+}
+
+.marcas-strip img {
+  height: 50px;
+  width: auto;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+
+.marcas-strip img:hover {
+  opacity: 1;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ========================================
    SUBPAGES - RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
