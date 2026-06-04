@@ -2309,6 +2309,212 @@ ul { list-style: none; }
 }
 
 /* ========================================
+   MODAL PRODUCTO
+   ======================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-content {
+  background: var(--dark-700);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  max-width: 960px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 40px;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.06);
+  color: var(--gray-300);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  z-index: 2;
+  line-height: 1;
+}
+.modal-close:hover {
+  background: var(--orange-500);
+  color: var(--white);
+}
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.modal-imagenes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.modal-img-main {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--dark-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.modal-thumbs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.modal-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  background: var(--dark-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-thumb:hover,
+.modal-thumb.active {
+  border-color: var(--orange-500);
+}
+.modal-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.modal-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--orange-500);
+  background: rgba(255,107,0,0.08);
+  padding: 4px 12px;
+  border-radius: 100px;
+  display: inline-block;
+  width: fit-content;
+}
+.modal-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--white);
+  margin: 0;
+  line-height: 1.2;
+}
+.modal-desc {
+  font-size: 0.95rem;
+  color: var(--gray-300);
+  line-height: 1.6;
+  margin: 0;
+}
+.modal-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.modal-spec {
+  background: var(--dark-800);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.modal-spec-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-400);
+}
+.modal-spec-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-top: 2px;
+}
+.modal-vehiculos {
+  background: var(--dark-800);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+.modal-vehiculos-titulo {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-400);
+  margin-bottom: 10px;
+}
+.modal-vehiculos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.modal-precio {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--orange-500);
+}
+@media (max-width: 768px) {
+  .modal-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .modal-content {
+    padding: 24px;
+  }
+  .modal-specs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
    MARCAS / PROVEEDORES
    ======================================== */
 .marcas {

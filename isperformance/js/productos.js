@@ -14,6 +14,29 @@ function urlImagen(categoria, archivo) {
   return dir + archivo;
 }
 
+const IMAGENES_ADICIONALES = {
+  'Tapas|Retrax One XR': ['RETRAX_ONE_XR1.jpg'],
+  'Tapas|Retrax One MX': ['RETRAX_ONE_MX1.jpg'],
+  'Tapas|Lona Rígida Keko': ['LONA_RIGIDA_KEKO1.jpeg'],
+  'Tapas|BULX15 2.0 Power': ['BULX15_2.0_POWER1.jpeg'],
+  'Tapas|BULX15 2.0': ['BULX15_2.01.jpeg'],
+  'Tapas|BULX5 Slim': ['BULX5_SLIM1.jpeg', 'BULX5_SLIM2.jpeg'],
+  'Tapas|Solid Fold 2.0': ['SOLID_FOLD_2.01.jpg'],
+  'Tapas|Lona Marítima Flex': ['LONA_MARITIMA_FLEX1.jpg'],
+  'Tapas|Trifold': ['TRIFOLD1.jpg'],
+  'Pisaderas|Keko K1': ['KEKO_K1.jpg', 'KEKO_K13.jpg'],
+  'Pisaderas|K2 My Way': ['K2_MY_WAY1.jpg'],
+  'Pisaderas|Keko My Road': ['KEKO_MY_ROAD1.jpg', 'KEKO_MY_ROAD2.jpg'],
+  'Pisaderas|Shark Heavy Duty': ['SHARK_HEAVY_DUTY1.jpg'],
+  'Pisaderas|Heavy Duty TRD': ['HEAVY_DUTY_TRD1.jpg'],
+  'Pisaderas|Aluminio': ['ALUMINIO1.jpg', 'ALUMINIO2.jpg'],
+  'Pisaderas|Infinity': ['INIFINITY1.jpg'],
+  'Pisaderas|Tabulares': ['TABULARES1.jpg'],
+  'Barras|Keko K1': ['KEKO_K11.jpg', 'KEKO_K12.jpg'],
+  'Barras|Premium': ['PREMIUM1.jpg'],
+  'Barras|Negras': ['NEGRAS1.jpg', 'NEGRAS2.jpg']
+};
+
 // Datos locales de respaldo
 const PRODUCTOS_FALLBACK = [
   {
