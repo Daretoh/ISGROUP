@@ -2288,7 +2288,7 @@ ul { list-style: none; }
 }
 
 .categoria-seccion {
-  margin-bottom: 48px;
+  margin-bottom: 60px;
 }
 
 .categoria-seccion:last-child {
@@ -2296,13 +2296,16 @@ ul { list-style: none; }
 }
 
 .categoria-titulo {
-  font-size: 1.4rem;
-  font-weight: 800;
+  font-size: 1.8rem;
+  font-weight: 900;
   color: var(--white);
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--orange-500);
-  display: inline-block;
+  margin-bottom: 28px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.12), rgba(255, 107, 0, 0.03));
+  border-left: 4px solid var(--orange-500);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* ========================================
