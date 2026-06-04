@@ -2330,9 +2330,10 @@ ul { list-style: none; }
 }
 
 .marcas-strip img {
-  height: 50px;
+  height: 36px;
   width: auto;
-  opacity: 0.6;
+  max-width: none;
+  opacity: 0.5;
   transition: opacity 0.3s;
   flex-shrink: 0;
 }
