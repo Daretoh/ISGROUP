@@ -86,7 +86,7 @@ const PRODUCTOS_FALLBACK = [
     id: 7,
     nombre: "Keko K1",
     categoria: "Pisaderas",
-    imagen: urlImagen("Pisaderas", "KEKO_K1.jpg"),
+    imagen: urlImagen("Pisaderas", "KEKO_K12.jpg"),
     descripcion: "Antideslizante. Brasil. Aluminio.",
     tipo: "Antideslizante",
     procedencia: "Brasil",
