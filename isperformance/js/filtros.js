@@ -15,18 +15,26 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   function getMarcas() {
-    return uniqueSorted(productos.map(p => p.marca));
+    const marcas = new Set();
+    productos.forEach(p => p.vehiculos.forEach(v => { if (v.marca) marcas.add(v.marca); }));
+    return [...marcas].sort();
   }
 
   function getModelos(marca) {
-    return uniqueSorted(productos.filter(p => p.marca === marca).map(p => p.modelo));
+    const modelos = new Set();
+    productos.forEach(p => p.vehiculos.forEach(v => {
+      if (v.marca === marca && v.modelo) modelos.add(v.modelo);
+    }));
+    return [...modelos].sort();
   }
 
   function getAños(marca, modelo) {
     const añosSet = new Set();
-    productos
-      .filter(p => p.marca === marca && p.modelo === modelo)
-      .forEach(p => p.años.forEach(a => añosSet.add(a)));
+    productos.forEach(p => p.vehiculos.forEach(v => {
+      if (v.marca === marca && v.modelo === modelo) {
+        v.años.forEach(a => añosSet.add(a));
+      }
+    }));
     return [...añosSet].sort((a, b) => b - a);
   }
 
@@ -88,7 +96,26 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     totalEl.textContent = lista.length + ' producto' + (lista.length !== 1 ? 's' : '');
 
-    resultadosEl.innerHTML = lista.map(p => `
+    const marca = marcaEl.value;
+    const modelo = modeloEl.value;
+    const año = añoEl.value;
+
+    resultadosEl.innerHTML = lista.map(p => {
+      const vehiculosFiltrados = p.vehiculos.filter(v => {
+        if (marca && v.marca !== marca) return false;
+        if (modelo && v.modelo !== modelo) return false;
+        if (año && !v.años.includes(parseInt(año))) return false;
+        return true;
+      });
+
+      const compatTags = (vehiculosFiltrados.length ? vehiculosFiltrados : p.vehiculos).map(v => {
+        const rango = v.años.length ? `${Math.min(...v.años)}-${Math.max(...v.años)}` : '';
+        return `<span class="compat-tag">${v.marca} ${v.modelo} ${rango}</span>`;
+      }).join('');
+
+      const precio = vehiculosFiltrados.length ? Math.max(...vehiculosFiltrados.map(v => v.precio)) : 0;
+
+      return `
       <article class="equipo-card">
         <div class="equipo-card-img">
           <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" />
@@ -97,16 +124,13 @@ document.addEventListener('DOMContentLoaded', async function () {
           <span class="equipo-card-cat">${p.categoria}</span>
           <h3 class="equipo-card-title">${p.nombre}</h3>
           <p class="equipo-card-desc">${p.descripcion}</p>
-          <div class="equipo-card-compat">
-            <span class="compat-tag">${p.marca} ${p.modelo}</span>
-            <span class="compat-tag">${Math.min(...p.años)}-${Math.max(...p.años)}</span>
-          </div>
+          <div class="equipo-card-compat">${compatTags}</div>
           <div class="equipo-card-footer">
-            <span class="equipo-card-precio">${p.precio ? '$' + p.precio.toLocaleString('es-CL') : 'Consultar'}</span>
+            <span class="equipo-card-precio">${precio ? '$' + precio.toLocaleString('es-CL') : 'Consultar'}</span>
           </div>
         </div>
-      </article>
-    `).join('');
+      </article>`;
+    }).join('');
   }
 
   function aplicarFiltros() {
@@ -119,11 +143,14 @@ document.addEventListener('DOMContentLoaded', async function () {
       return;
     }
 
-    let filtrados = productos;
-
-    if (marca) filtrados = filtrados.filter(p => p.marca === marca);
-    if (modelo) filtrados = filtrados.filter(p => p.modelo === modelo);
-    if (año) filtrados = filtrados.filter(p => p.años.includes(parseInt(año)));
+    const filtrados = productos.filter(p =>
+      p.vehiculos.some(v => {
+        if (marca && v.marca !== marca) return false;
+        if (modelo && v.modelo !== modelo) return false;
+        if (año && !v.años.includes(parseInt(año))) return false;
+        return true;
+      })
+    );
 
     renderProductos(filtrados);
   }
