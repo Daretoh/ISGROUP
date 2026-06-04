@@ -99,23 +99,40 @@ document.addEventListener('DOMContentLoaded', async function () {
     const marca = marcaEl.value;
     const modelo = modeloEl.value;
     const año = añoEl.value;
+    const hayFiltro = marca || modelo || año;
 
-    resultadosEl.innerHTML = lista.map(p => {
-      const vehiculosFiltrados = p.vehiculos.filter(v => {
-        if (marca && v.marca !== marca) return false;
-        if (modelo && v.modelo !== modelo) return false;
-        if (año && !v.años.includes(parseInt(año))) return false;
-        return true;
-      });
+    const ordenCategorias = ['Tapas', 'Pisaderas', 'Barras'];
+    const agrupado = {};
+    lista.forEach(p => {
+      const cat = p.categoria || 'Otros';
+      if (!agrupado[cat]) agrupado[cat] = [];
+      agrupado[cat].push(p);
+    });
 
-      const compatTags = (vehiculosFiltrados.length ? vehiculosFiltrados : p.vehiculos).map(v => {
-        const rango = v.años.length ? `${Math.min(...v.años)}-${Math.max(...v.años)}` : '';
-        return `<span class="compat-tag">${v.marca} ${v.modelo} ${rango}</span>`;
-      }).join('');
+    let html = '';
+    ordenCategorias.forEach(cat => {
+      const items = agrupado[cat];
+      if (!items || !items.length) return;
 
-      const precio = vehiculosFiltrados.length ? Math.max(...vehiculosFiltrados.map(v => v.precio)) : 0;
+      html += `<div class="categoria-seccion"><h3 class="categoria-titulo">${cat}</h3><div class="equipos-grid">`;
 
-      return `
+      items.forEach(p => {
+        const vehiculosFiltrados = p.vehiculos.filter(v => {
+          if (marca && v.marca !== marca) return false;
+          if (modelo && v.modelo !== modelo) return false;
+          if (año && !v.años.includes(parseInt(año))) return false;
+          return true;
+        });
+
+        const vehiculosMostrar = hayFiltro && vehiculosFiltrados.length ? vehiculosFiltrados : p.vehiculos;
+        const compatTags = vehiculosMostrar.filter(v => v.marca).map(v => {
+          const rango = v.años.length ? `${Math.min(...v.años)}-${Math.max(...v.años)}` : '';
+          return `<span class="compat-tag">${v.marca} ${v.modelo} ${rango}</span>`;
+        }).join('');
+
+        const precio = vehiculosFiltrados.length ? Math.max(...vehiculosFiltrados.map(v => v.precio)) : 0;
+
+        html += `
       <article class="equipo-card">
         <div class="equipo-card-img">
           <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" />
@@ -130,7 +147,12 @@ document.addEventListener('DOMContentLoaded', async function () {
           </div>
         </div>
       </article>`;
-    }).join('');
+      });
+
+      html += `</div></div>`;
+    });
+
+    resultadosEl.innerHTML = html;
   }
 
   function aplicarFiltros() {
