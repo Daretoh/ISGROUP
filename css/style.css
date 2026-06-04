@@ -2191,6 +2191,9 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 
+.equipo-card {
+  cursor: pointer;
+}
 .equipo-card:hover {
   border-color: rgba(255, 107, 0, 0.15);
   transform: translateY(-4px);
@@ -2511,6 +2514,203 @@ ul { list-style: none; }
   }
   .modal-specs {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   DETALLE PRODUCTO (subpágina)
+   ======================================== */
+.producto-back {
+  padding: 100px 0 0;
+  background: var(--dark-900);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-400);
+  text-decoration: none;
+  transition: var(--transition);
+}
+.back-link:hover {
+  color: var(--orange-500);
+  gap: 10px;
+}
+.producto-detalle {
+  padding: 40px 0 80px;
+  background: var(--dark-900);
+  min-height: 60vh;
+}
+.detalle-loading,
+.detalle-error {
+  text-align: center;
+  padding: 80px 0;
+  font-size: 1.1rem;
+  color: var(--gray-400);
+}
+.detalle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.detalle-imagenes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.detalle-img-main {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--dark-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.detalle-img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.detalle-thumbs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.detalle-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  background: var(--dark-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.detalle-thumb:hover,
+.detalle-thumb.active {
+  border-color: var(--orange-500);
+}
+.detalle-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detalle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.detalle-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--orange-500);
+  background: rgba(255,107,0,0.08);
+  padding: 4px 12px;
+  border-radius: 100px;
+  display: inline-block;
+  width: fit-content;
+}
+.detalle-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--white);
+  margin: 0;
+  line-height: 1.2;
+}
+.detalle-desc {
+  font-size: 1rem;
+  color: var(--gray-300);
+  line-height: 1.6;
+  margin: 0;
+}
+.detalle-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.detalle-spec {
+  background: var(--dark-800);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.detalle-spec-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-400);
+}
+.detalle-spec-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-top: 2px;
+}
+.detalle-vehiculos {
+  background: var(--dark-800);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+.detalle-vehiculos-titulo {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-400);
+  margin-bottom: 10px;
+}
+.detalle-vehiculos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.detalle-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  flex-wrap: wrap;
+}
+.detalle-precio {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--orange-500);
+}
+.btn-shopify {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+@media (max-width: 768px) {
+  .detalle-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .detalle-specs {
+    grid-template-columns: 1fr;
+  }
+  .detalle-title {
+    font-size: 1.4rem;
+  }
+  .detalle-footer {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 

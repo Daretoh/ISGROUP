@@ -48,6 +48,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Retráctil manual",
     procedencia: "Estados Unidos",
     material: "Policarbonato",
+    shopifyId: '',
     vehiculos: [{ marca: "Toyota", modelo: "Hilux", años: [2018,2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -59,6 +60,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Retráctil manual con rieles",
     procedencia: "Estados Unidos",
     material: "Policarbonato",
+    shopifyId: '',
     vehiculos: [{ marca: "Ford", modelo: "Ranger", años: [2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -70,6 +72,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Retráctil eléctrica",
     procedencia: "China",
     material: "Aluminio",
+    shopifyId: '',
     vehiculos: [{ marca: "Toyota", modelo: "Hilux", años: [2018,2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -81,6 +84,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Retráctil manual",
     procedencia: "China",
     material: "Aluminio",
+    shopifyId: '',
     vehiculos: [{ marca: "Ford", modelo: "Ranger", años: [2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -92,6 +96,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Plegable dura",
     procedencia: "Estados Unidos",
     material: "Polipropileno",
+    shopifyId: '',
     vehiculos: [{ marca: "Nissan", modelo: "Navara", años: [2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -103,6 +108,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Enrollable manual",
     procedencia: "Brasil",
     material: "PVC reforzado",
+    shopifyId: '',
     vehiculos: [{ marca: "Mitsubishi", modelo: "L200", años: [2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -114,6 +120,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Antideslizante",
     procedencia: "Brasil",
     material: "Aluminio",
+    shopifyId: '',
     vehiculos: [{ marca: "Toyota", modelo: "Hilux", años: [2018,2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -125,6 +132,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Encaje perfecto",
     procedencia: "Brasil",
     material: "Aluminio",
+    shopifyId: '',
     vehiculos: [{ marca: "Ford", modelo: "Ranger", años: [2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -136,6 +144,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "3 modelos",
     procedencia: "China",
     material: "Aluminio/Acero",
+    shopifyId: '',
     vehiculos: [{ marca: "Nissan", modelo: "Navara", años: [2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -147,6 +156,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Diseño único por vehículo",
     procedencia: "Brasil",
     material: "Aluminio",
+    shopifyId: '',
     vehiculos: [{ marca: "Toyota", modelo: "Hilux", años: [2018,2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -158,6 +168,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Diseño elegante",
     procedencia: "Brasil",
     material: "Aluminio",
+    shopifyId: '',
     vehiculos: [{ marca: "Ford", modelo: "Ranger", años: [2019,2020,2021,2022,2023,2024,2025], precio: 0 }]
   },
   {
@@ -169,6 +180,7 @@ const PRODUCTOS_FALLBACK = [
     tipo: "Con tapas laterales",
     procedencia: "China",
     material: "Acero inoxidable",
+    shopifyId: '',
     vehiculos: [{ marca: "Chevrolet", modelo: "Colorado", años: [2020,2021,2022,2023,2024], precio: 0 }]
   }
 ];
@@ -226,6 +238,7 @@ function combinarDatos(catalogo, compat) {
       tipo: item.Tipo,
       procedencia: item.Procedencia,
       material: item.Material,
+      shopifyId: item.Shopify_ID || '',
       vehiculos
     };
   });
