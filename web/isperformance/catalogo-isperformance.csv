@@ -1,0 +1,21 @@
+id,Categoria,Producto,Tipo,Procedencia,Material,Descripcion,Marca,Modelo,Año_desde,Año_hasta,Precio,Imagen
+1,Tapas,Retrax One MX,Retráctil manual,Estados Unidos,Policarbonato,,,,,,,RETRAX_ONE_MX.jpg
+2,Tapas,Retrax One XR,Retráctil manual con rieles,Estados Unidos,Policarbonato,,,,,,,RETRAX_ONE_XR.jpg
+3,Tapas,BULX15 2.0 Power,Retráctil eléctrica,China,Aluminio,,,,,,,BULX15_2.0_POWER.jpeg
+4,Tapas,BULX15 2.0,Retráctil manual,China,Aluminio,,,,,,,BULX15_2.0.jpeg
+5,Tapas,BULX20,Enrollable dura,China,Paneles de aluminio,,,,,,,BULX20.jpeg
+6,Tapas,Solid Fold 2.0,Plegable dura,Estados Unidos,Polipropileno,,,,,,,SOLID_FOLD_2.0.jpg
+7,Tapas,BULX5 Slim,Plegable dura,,Aluminio alta resistencia,,,,,,,BULX5_SLIM.jpeg
+8,Tapas,Trifold,Plegable dura,China,Aluminio reforzado,,,,,,,TRIFOLD.jpg
+9,Tapas,Lona Marítima Flex,Enrollable manual,Brasil,PVC reforzado,,,,,,,LONA_MARITIMA_FLEX.jpg
+10,Tapas,Lona Rígida Keko,Retráctil eléctrico/manual,Brasil,Policarbonato,,,,,,,LONA_RIGIDA_KEKO.jpeg
+11,Pisaderas,Keko K1,Antideslizante,Brasil,Aluminio,,,,,,,KEKO_K1.jpg
+12,Pisaderas,K2 My Way,Encaje perfecto,Brasil,Aluminio,,,,,,,K2_MY_WAY.jpg
+13,Pisaderas,Keko My Trip,Diseño exclusivo,Brasil,Aluminio,,,,,,,KEKO_MY_TRIP1.jpg
+14,Pisaderas,Infinity,3 modelos,China,Aluminio/Acero,,,,,,,INFINITY.jpg
+15,Pisaderas,Tubulares,Estéticas,China,Acero,,,,,,,TABULARES.jpg
+16,Barras,Keko K1,Diseño único por vehículo,Brasil,Aluminio,,,,,,,KEKO_K1.jpg
+17,Barras,Keko K3,Diseño elegante,Brasil,Aluminio,,,,,,,KEKO_K3.jpg
+18,Barras,Premium,Con tapas laterales,China,Acero inoxidable,,,,,,,PREMIUM.jpg
+19,Barras,Básica,Sin tapas laterales,China,Acero inoxidable,,,,,,,BASICA.jpg
+20,Barras,Especiales,Tubos acero 2'',Brasil,Acero,,,,,,,ESPECIALES.jpg

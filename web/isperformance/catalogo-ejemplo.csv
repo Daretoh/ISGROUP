@@ -1,0 +1,25 @@
+id,nombre,categoria,marca,modelo,ano_desde,ano_hasta,precio,imagen,descripcion
+1,Lona Marítima,Tapas y Lonas,Toyota,Hilux,2018,2025,269000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Lona+Mar%C3%ADtima,Lona marítima resistente al agua y rayos UV
+2,Lona Marítima,Tapas y Lonas,Ford,Ranger,2019,2025,269000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Lona+Mar%C3%ADtima,Lona marítima resistente al agua y rayos UV
+3,Lona Marítima,Tapas y Lonas,Nissan,Navara,2020,2025,269000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Lona+Mar%C3%ADtima,Lona marítima resistente al agua y rayos UV
+4,Tapa Plegable,Tapas y Lonas,Toyota,Hilux,2018,2025,580000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Tapa+Plegable,Tapa rígida plegable de aluminio con cierre de seguridad
+5,Tapa Plegable,Tapas y Lonas,Ford,Ranger,2019,2025,580000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Tapa+Plegable,Tapa rígida plegable de aluminio con cierre de seguridad
+6,Canopy,Tapas y Lonas,Mitsubishi,L200,2020,2025,2348500,https://placehold.co/300x200/1A1A1A/FF6B00?text=Canopy,Canopy con ventanas laterales y apertura trasera
+7,Canopy,Tapas y Lonas,Nissan,Navara,2020,2025,2348500,https://placehold.co/300x200/1A1A1A/FF6B00?text=Canopy,Canopy con ventanas laterales y apertura trasera
+8,Canopy,Tapas y Lonas,Ford,Ranger,2019,2025,2348500,https://placehold.co/300x200/1A1A1A/FF6B00?text=Canopy,Canopy con ventanas laterales y apertura trasera
+9,Canopy,Tapas y Lonas,Chevrolet,D-Max,2021,2025,2348500,https://placehold.co/300x200/1A1A1A/FF6B00?text=Canopy,Canopy con ventanas laterales y apertura trasera
+10,Barras de Iluminación,Iluminación LED,Toyota,Hilux,2018,2025,180000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Barras+LED,Barras LED de alto rendimiento para conducción nocturna
+11,Barras de Iluminación,Iluminación LED,Ford,Ranger,2019,2025,180000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Barras+LED,Barras LED de alto rendimiento para conducción nocturna
+12,Barras de Iluminación,Iluminación LED,Nissan,Navara,2020,2025,180000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Barras+LED,Barras LED de alto rendimiento para conducción nocturna
+13,Barras de Iluminación,Iluminación LED,Mitsubishi,L200,2020,2025,180000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Barras+LED,Barras LED de alto rendimiento para conducción nocturna
+14,Barras de Iluminación,Iluminación LED,Chevrolet,D-Max,2021,2025,180000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Barras+LED,Barras LED de alto rendimiento para conducción nocturna
+15,Estribos Eléctricos,Accesorios,Mitsubishi,L200,2020,2025,450000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Estribos,Estribos eléctricos retráctiles con control de apertura
+16,Estribos Eléctricos,Accesorios,Ford,Ranger,2019,2025,450000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Estribos,Estribos eléctricos retráctiles con control de apertura
+17,Snorkel,Accesorios,Toyota,Hilux,2018,2025,320000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Snorkel,Snorkel para vadeo y admisión de aire limpio
+18,Snorkel,Accesorios,Nissan,Navara,2020,2025,320000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Snorkel,Snorkel para vadeo y admisión de aire limpio
+19,Snorkel,Accesorios,Ford,Ranger,2019,2025,320000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Snorkel,Snorkel para vadeo y admisión de aire limpio
+20,Protector de Carga,Accesorios,Toyota,Hilux,2018,2025,120000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Protector+Carga,Protector de cama de carga en PVC reforzado
+21,Protector de Carga,Accesorios,Ford,Ranger,2019,2025,120000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Protector+Carga,Protector de cama de carga en PVC reforzado
+22,Protector de Carga,Accesorios,Nissan,Navara,2020,2025,120000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Protector+Carga,Protector de cama de carga en PVC reforzado
+23,Protector de Carga,Accesorios,Chevrolet,D-Max,2021,2025,120000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Protector+Carga,Protector de cama de carga en PVC reforzado
+24,Neutralizador de Combustible,Insumos,Toyota,Hilux,2010,2025,45000,https://placehold.co/300x200/1A1A1A/FF6B00?text=Neutralizador,Neutralizador de combustible para mantención del motor
