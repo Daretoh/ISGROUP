@@ -44,45 +44,45 @@ function buildCompatMap(rows) {
 
 async function cargarProductos() {
   try {
+    const STORE = 'is-perfomance.myshopify.com';
     const [resP, resC] = await Promise.all([
-      fetch('productos.json'),
+      fetch(`https://${STORE}/products.json?limit=250`),
       fetch('compatibilidad.csv')
     ]);
 
-    const shopify  = await resP.json();
-    const csvText  = await resC.text();
-    const compat   = buildCompatMap(parseCSV(csvText));
+    const { products } = await resP.json();
+    const csvText = await resC.text();
+    const compat  = buildCompatMap(parseCSV(csvText));
 
     let id = 0;
-    return shopify.map(p => {
-      const cat     = CAT_MAP[p.type] || p.type;
-      const imagen  = p.images && p.images[0] ? p.images[0] : 'https://placehold.co/400x280/1A1A1A/FF6B00?text=' + encodeURIComponent(p.title);
-      const imgs    = p.images || [];
-      const vehiculos = (compat[p.title] || []);
+    return products.map(p => {
+      const cat    = CAT_MAP[p.product_type] || p.product_type;
+      const imgs   = (p.images || []).map(i => i.src);
+      const imagen = imgs[0] || 'https://placehold.co/400x280/1A1A1A/FF6B00?text=' + encodeURIComponent(p.title);
 
       const variant = p.variants && p.variants[0] ? p.variants[0] : {};
       const precio  = parseFloat(variant.price) || 0;
       const stock   = variant.inventory_quantity != null ? variant.inventory_quantity : null;
 
+      const desc = p.body_html || '';
+
       return {
-        id:          ++id,
-        shopifyId:   p.id,
-        handle:      p.handle,
-        nombre:      p.title,
-        categoria:   cat,
-        vendor:      p.vendor,
-        tags:        p.tags || [],
+        id:             ++id,
+        shopifyId:      p.id,
+        handle:         p.handle,
+        nombre:         p.title,
+        categoria:      cat,
+        vendor:         p.vendor,
+        tags:           Array.isArray(p.tags) ? p.tags : (p.tags || '').split(', ').filter(Boolean),
         imagen,
-        imagenes:    imgs,
-        descripcion: p.description
-          ? p.description.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200)
-          : '',
-        descripcionHTML: p.description || '',
-        shopifyUrl:  p.shopify_url || '',
-        variantId:   variant.id || null,
+        imagenes:       imgs,
+        descripcion:    desc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200),
+        descripcionHTML: desc,
+        shopifyUrl:     `https://${STORE}/products/${p.handle}`,
+        variantId:      variant.id || null,
         precio,
         stock,
-        vehiculos
+        vehiculos:      compat[p.title] || []
       };
     });
   } catch (e) {
