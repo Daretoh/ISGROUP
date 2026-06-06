@@ -2951,6 +2951,46 @@ ul { list-style: none; }
   font-weight: 700;
 }
 
+.detalle-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detalle-acciones .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  width: 100%;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--orange-500);
+  color: var(--orange-500);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-outline:hover {
+  background: var(--orange-500);
+  color: #fff;
+}
+
+.detalle-acciones-hint {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+  text-align: center;
+  line-height: 1.4;
+}
+
 /* ========================================
    CARRITO — BADGE EN NAV
    ======================================== */

@@ -45,14 +45,16 @@ function buildCompatMap(rows) {
 async function cargarProductos() {
   try {
     const STORE = 'is-perfomance.myshopify.com';
-    const [resP, resC] = await Promise.all([
+    const [resP, resC, resS] = await Promise.all([
       fetch(`https://${STORE}/products.json?limit=250`),
-      fetch('compatibilidad.csv')
+      fetch('compatibilidad.csv'),
+      fetch('stock.json').catch(() => null)
     ]);
 
     const { products } = await resP.json();
     const csvText = await resC.text();
     const compat  = buildCompatMap(parseCSV(csvText));
+    const stockMap = resS ? await resS.json().catch(() => ({})) : {};
 
     let id = 0;
     return products.map(p => {
@@ -62,7 +64,7 @@ async function cargarProductos() {
 
       const variant = p.variants && p.variants[0] ? p.variants[0] : {};
       const precio  = parseFloat(variant.price) || 0;
-      const stock   = variant.inventory_quantity != null ? variant.inventory_quantity : null;
+      const stock   = p.handle in stockMap ? stockMap[p.handle] : null;
 
       const desc = p.body_html || '';
 
