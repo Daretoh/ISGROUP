@@ -11,7 +11,9 @@ const Carrito = {
     const items = Carrito.get();
     const existe = items.find(i => i.shopifyId === producto.shopifyId);
     if (existe) {
-      existe.qty = (existe.qty || 1) + 1;
+      existe.qty       = (existe.qty || 1) + 1;
+      existe.variantId = existe.variantId || producto.variantId;
+      existe.precio    = existe.precio    || producto.precio;
     } else {
       items.push({ shopifyId: producto.shopifyId, nombre: producto.nombre,
                    imagen: producto.imagen, precio: producto.precio,
@@ -52,7 +54,7 @@ function extraerSpecs(html) {
 
 // ── Modal carrito ────────────────────────────────────────────────────
 function formatCLP(n) {
-  return '$' + Math.round(n).toLocaleString('es-CL');
+  return '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
 function checkoutUrl(items) {
@@ -154,6 +156,11 @@ function mostrarToast(nombre) {
 
 // ── Página de detalle ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async function () {
+  // Limpiar ítems obsoletos del carrito (sin variantId — datos de versión anterior)
+  const itemsActuales = Carrito.get();
+  if (itemsActuales.some(i => !i.variantId)) {
+    Carrito.save(itemsActuales.filter(i => i.variantId));
+  }
   Carrito.updateBadge();
 
   const params = new URLSearchParams(window.location.search);
