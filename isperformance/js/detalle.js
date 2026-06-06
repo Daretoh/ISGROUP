@@ -69,7 +69,6 @@ function abrirModalCarrito() {
   document.getElementById('cart-overlay')?.remove();
 
   const items = Carrito.get();
-  const url   = checkoutUrl(items);
   const total = items.reduce((s, i) => s + (i.precio || 0) * (i.qty || 1), 0);
 
   const overlay = document.createElement('div');
@@ -77,29 +76,37 @@ function abrirModalCarrito() {
   overlay.innerHTML = `
     <div class="cart-modal">
       <div class="cart-modal-header">
-        <h3>Carrito</h3>
+        <h3>Tu selección</h3>
         <button class="cart-close" id="cart-close">✕</button>
       </div>
       <div class="cart-modal-items">
         ${items.length === 0
-          ? '<p class="cart-empty">Tu carrito está vacío.</p>'
+          ? '<p class="cart-empty">No has seleccionado productos.</p>'
           : items.map(i => `
             <div class="cart-item">
-              <img src="${i.imagen}" alt="${i.nombre}"
-                   onerror="this.style.display='none'" />
+              <img src="${i.imagen}" alt="${i.nombre}" onerror="this.style.display='none'" />
               <div class="cart-item-info">
                 <span class="cart-item-name">${i.nombre}</span>
-                <span class="cart-item-qty">Cant: ${i.qty}${i.precio ? ' · ' + formatCLP(i.precio * i.qty) : ''}</span>
+                <span class="cart-item-qty">x${i.qty}${i.precio ? ' · ' + formatCLP(i.precio * i.qty) : ''}</span>
               </div>
               <button class="cart-item-remove" data-id="${i.shopifyId}">✕</button>
             </div>`).join('')}
       </div>
       ${items.length > 0 ? `
-      ${total > 0 ? `<div class="cart-total">Total: <strong>${formatCLP(total)}</strong></div>` : ''}
-      <div class="cart-modal-footer">
-        <button class="btn btn-secondary" id="cart-seguir">← Seguir comprando</button>
-        <button class="btn btn-primary" id="cart-pagar">Ir a pagar →</button>
-      </div>` : ''}
+        ${total > 0 ? `<div class="cart-total">Total referencial: <strong>${formatCLP(total)}</strong></div>` : ''}
+        <div class="cart-solicitud">
+          <p class="cart-solicitud-info">Los productos se retiran e instalan en tienda. Completa tus datos y te contactamos para confirmar tu cita.</p>
+          <div class="cart-form">
+            <input id="sol-nombre" type="text" placeholder="Tu nombre" autocomplete="name" />
+            <input id="sol-telefono" type="tel" placeholder="Teléfono / WhatsApp" autocomplete="tel" />
+            <input id="sol-vehiculo" type="text" placeholder="Marca, modelo y año de tu vehículo" />
+            <textarea id="sol-nota" placeholder="¿Alguna consulta adicional? (opcional)" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="cart-modal-footer">
+          <button class="btn btn-secondary" id="cart-seguir">← Seguir eligiendo</button>
+          <button class="btn btn-primary" id="cart-solicitar">Solicitar instalación →</button>
+        </div>` : ''}
     </div>`;
 
   document.body.appendChild(overlay);
@@ -108,25 +115,44 @@ function abrirModalCarrito() {
   document.getElementById('cart-close')?.addEventListener('click', cerrarCarrito);
   document.getElementById('cart-seguir')?.addEventListener('click', cerrarCarrito);
   overlay.addEventListener('click', e => { if (e.target === overlay) cerrarCarrito(); });
+
   overlay.querySelectorAll('.cart-item-remove').forEach(btn => {
     btn.addEventListener('click', () => {
       Carrito.remove(parseInt(btn.dataset.id));
       abrirModalCarrito();
     });
   });
-  document.getElementById('cart-pagar')?.addEventListener('click', () => {
-    const its = Carrito.get();
-    const shopifyUrl = checkoutUrl(its);
-    if (shopifyUrl) {
-      // Intenta Shopify checkout; si el tema no está publicado caerá en error
-      window.open(shopifyUrl, '_blank');
-    } else {
-      // Fallback: WhatsApp con detalle del pedido
-      const txt = its.map(i => `• ${i.nombre} x${i.qty}${i.precio ? ' (' + formatCLP(i.precio * i.qty) + ')' : ''}`).join('\n');
-      const total = its.reduce((s, i) => s + (i.precio || 0) * (i.qty || 1), 0);
-      const msg = encodeURIComponent(`Hola ISPerformance, quiero comprar:\n\n${txt}\n\nTotal referencial: ${formatCLP(total)}\n\n¿Cómo procedo con el pago?`);
-      window.open(`https://wa.me/56985615636?text=${msg}`, '_blank');
+
+  document.getElementById('cart-solicitar')?.addEventListener('click', () => {
+    const nombre   = document.getElementById('sol-nombre').value.trim();
+    const telefono = document.getElementById('sol-telefono').value.trim();
+    const vehiculo = document.getElementById('sol-vehiculo').value.trim();
+    const nota     = document.getElementById('sol-nota').value.trim();
+
+    if (!nombre || !telefono) {
+      document.getElementById('sol-nombre').style.borderColor   = nombre   ? '' : '#f87171';
+      document.getElementById('sol-telefono').style.borderColor = telefono ? '' : '#f87171';
+      return;
     }
+
+    const its  = Carrito.get();
+    const prod = its.map(i => `• ${i.nombre} x${i.qty}${i.precio ? ' (' + formatCLP(i.precio * i.qty) + ')' : ''}`).join('\n');
+    const tot  = its.reduce((s, i) => s + (i.precio || 0) * (i.qty || 1), 0);
+
+    const msg = encodeURIComponent(
+      `*Solicitud de instalación — ISperformance*\n\n` +
+      `👤 Nombre: ${nombre}\n` +
+      `📱 Teléfono: ${telefono}\n` +
+      `🚗 Vehículo: ${vehiculo || 'No especificado'}\n\n` +
+      `*Productos:*\n${prod}\n\n` +
+      `💰 Total referencial: ${formatCLP(tot)}\n` +
+      (nota ? `\n📝 Consulta: ${nota}` : '')
+    );
+
+    window.open(`https://wa.me/56985615636?text=${msg}`, '_blank');
+    Carrito.clear();
+    cerrarCarrito();
+    mostrarToast('¡Solicitud enviada! Te contactaremos pronto.');
   });
 }
 
@@ -138,23 +164,27 @@ function cerrarCarrito() {
 }
 
 // ── Toast "agregado al carrito" ──────────────────────────────────────
-function mostrarToast(nombre) {
+function mostrarToast(mensaje, esConfirmacion = false) {
   document.getElementById('isp-toast')?.remove();
   const toast = document.createElement('div');
   toast.id = 'isp-toast';
-  toast.innerHTML = `
-    <span>✓ <strong>${nombre}</strong> agregado</span>
-    <div class="toast-btns">
-      <button id="toast-seguir">Seguir comprando</button>
-      <button id="toast-carrito" class="toast-primary">Ver carrito</button>
-    </div>`;
+  if (esConfirmacion) {
+    toast.innerHTML = `<span>✓ ${mensaje}</span>`;
+  } else {
+    toast.innerHTML = `
+      <span>✓ <strong>${mensaje}</strong> agregado</span>
+      <div class="toast-btns">
+        <button id="toast-seguir">Seguir eligiendo</button>
+        <button id="toast-carrito" class="toast-primary">Ver selección</button>
+      </div>`;
+  }
   document.body.appendChild(toast);
   requestAnimationFrame(() => toast.classList.add('visible'));
 
   const hide = () => { toast.classList.remove('visible'); setTimeout(() => toast.remove(), 300); };
-  document.getElementById('toast-seguir').addEventListener('click', hide);
-  document.getElementById('toast-carrito').addEventListener('click', () => { hide(); abrirModalCarrito(); });
-  setTimeout(hide, 5000);
+  document.getElementById('toast-seguir')?.addEventListener('click', hide);
+  document.getElementById('toast-carrito')?.addEventListener('click', () => { hide(); abrirModalCarrito(); });
+  setTimeout(hide, esConfirmacion ? 4000 : 5000);
 }
 
 // ── Página de detalle ────────────────────────────────────────────────
@@ -289,6 +319,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Agregar al carrito
   document.getElementById('btn-agregar-carrito')?.addEventListener('click', () => {
     Carrito.add(producto);
-    mostrarToast(producto.nombre);
+    mostrarToast(producto.nombre, false);
   });
 });
