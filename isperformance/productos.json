@@ -24,7 +24,8 @@
       {
         "id": 53694690689342,
         "sku": "NM-RBF50",
-        "price": "390000"
+        "price": "390000",
+        "inventory_quantity": 4
       }
     ]
   },
@@ -50,7 +51,8 @@
       {
         "id": 53694688723262,
         "sku": "NM-RB002",
-        "price": "450000"
+        "price": "450000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -76,7 +78,8 @@
       {
         "id": 53694688854334,
         "sku": "NM-RBP-CH",
-        "price": "690000"
+        "price": "690000",
+        "inventory_quantity": 2
       }
     ]
   },
@@ -103,7 +106,8 @@
       {
         "id": 53694689345854,
         "sku": "NM-RBP-BK",
-        "price": "650000"
+        "price": "650000",
+        "inventory_quantity": 3
       }
     ]
   },
@@ -130,7 +134,8 @@
       {
         "id": 53694689673534,
         "sku": "NM-RBF17",
-        "price": "580000"
+        "price": "580000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -157,7 +162,8 @@
       {
         "id": 53694689935678,
         "sku": "NM-RBF05",
-        "price": "750000"
+        "price": "750000",
+        "inventory_quantity": 1
       }
     ]
   },
@@ -184,7 +190,8 @@
       {
         "id": 53694688788798,
         "sku": "NM-RBF01",
-        "price": "890000"
+        "price": "890000",
+        "inventory_quantity": 2
       }
     ]
   },
@@ -210,7 +217,8 @@
       {
         "id": 53694690296126,
         "sku": "NM-RBF03",
-        "price": "420000"
+        "price": "420000",
+        "inventory_quantity": 5
       }
     ]
   },
@@ -237,7 +245,8 @@
       {
         "id": 53694688690494,
         "sku": null,
-        "price": "780000"
+        "price": "780000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -265,7 +274,8 @@
       {
         "id": 53694688592190,
         "sku": null,
-        "price": "380000"
+        "price": "380000",
+        "inventory_quantity": 7
       }
     ]
   },
@@ -293,7 +303,8 @@
       {
         "id": 53694688657726,
         "sku": null,
-        "price": "490000"
+        "price": "490000",
+        "inventory_quantity": 4
       }
     ]
   },
@@ -320,7 +331,8 @@
       {
         "id": 53694686363966,
         "sku": null,
-        "price": "1290000"
+        "price": "1290000",
+        "inventory_quantity": 3
       }
     ]
   },
@@ -348,7 +360,8 @@
       {
         "id": 53694686331198,
         "sku": null,
-        "price": "1590000"
+        "price": "1590000",
+        "inventory_quantity": 2
       }
     ]
   },
@@ -373,7 +386,8 @@
       {
         "id": 53694686396734,
         "sku": null,
-        "price": "1490000"
+        "price": "1490000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -401,7 +415,8 @@
       {
         "id": 53694686429502,
         "sku": null,
-        "price": "890000"
+        "price": "890000",
+        "inventory_quantity": 5
       }
     ]
   },
@@ -429,7 +444,8 @@
       {
         "id": 53694686495038,
         "sku": null,
-        "price": "450000"
+        "price": "450000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -457,7 +473,8 @@
       {
         "id": 53694686265662,
         "sku": null,
-        "price": "590000"
+        "price": "590000",
+        "inventory_quantity": 4
       }
     ]
   },
@@ -487,7 +504,8 @@
       {
         "id": 53694688493886,
         "sku": null,
-        "price": "380000"
+        "price": "380000",
+        "inventory_quantity": 6
       }
     ]
   },
@@ -515,7 +533,8 @@
       {
         "id": 53694688428350,
         "sku": "NM-T02",
-        "price": "450000"
+        "price": "450000",
+        "inventory_quantity": 8
       }
     ]
   },
@@ -542,7 +561,8 @@
       {
         "id": 53694688461118,
         "sku": "NM-T17",
-        "price": "390000"
+        "price": "390000",
+        "inventory_quantity": 6
       }
     ]
   },
@@ -571,7 +591,8 @@
       {
         "id": 53694688526654,
         "sku": null,
-        "price": "290000"
+        "price": "290000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -597,7 +618,8 @@
       {
         "id": 53694688330046,
         "sku": null,
-        "price": "490000"
+        "price": "490000",
+        "inventory_quantity": 4
       }
     ]
   },
@@ -625,7 +647,8 @@
       {
         "id": 53694687707454,
         "sku": null,
-        "price": "250000"
+        "price": "250000",
+        "inventory_quantity": 10
       }
     ]
   },
@@ -652,7 +675,8 @@
       {
         "id": 53694688264510,
         "sku": null,
-        "price": "290000"
+        "price": "290000",
+        "inventory_quantity": 7
       }
     ]
   },
@@ -680,7 +704,8 @@
       {
         "id": 53694688297278,
         "sku": null,
-        "price": "320000"
+        "price": "320000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -706,7 +731,8 @@
       {
         "id": 53694687904062,
         "sku": null,
-        "price": "280000"
+        "price": "280000",
+        "inventory_quantity": 5
       }
     ]
   },
@@ -734,7 +760,8 @@
       {
         "id": 53694688395582,
         "sku": "NM-T10",
-        "price": "490000"
+        "price": "490000",
+        "inventory_quantity": 3
       }
     ]
   },
@@ -761,7 +788,8 @@
       {
         "id": 53694688559422,
         "sku": null,
-        "price": "350000"
+        "price": "350000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -788,7 +816,8 @@
       {
         "id": 53694686232894,
         "sku": null,
-        "price": "1890000"
+        "price": "1890000",
+        "inventory_quantity": 1
       }
     ]
   },
@@ -817,7 +846,8 @@
       {
         "id": 53694686200126,
         "sku": null,
-        "price": "2190000"
+        "price": "2190000",
+        "inventory_quantity": 0
       }
     ]
   },
@@ -844,7 +874,8 @@
       {
         "id": 53694686462270,
         "sku": null,
-        "price": "1390000"
+        "price": "1390000",
+        "inventory_quantity": 2
       }
     ]
   },
@@ -870,7 +901,8 @@
       {
         "id": 53694687543614,
         "sku": null,
-        "price": "1190000"
+        "price": "1190000",
+        "inventory_quantity": 3
       }
     ]
   }

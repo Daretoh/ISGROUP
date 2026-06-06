@@ -62,6 +62,7 @@ async function cargarProductos() {
 
       const variant = p.variants && p.variants[0] ? p.variants[0] : {};
       const precio  = parseFloat(variant.price) || 0;
+      const stock   = variant.inventory_quantity != null ? variant.inventory_quantity : null;
 
       return {
         id:          ++id,
@@ -80,6 +81,7 @@ async function cargarProductos() {
         shopifyUrl:  p.shopify_url || '',
         variantId:   variant.id || null,
         precio,
+        stock,
         vehiculos
       };
     });
