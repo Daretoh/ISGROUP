@@ -1,97 +1,250 @@
+// ── Carrito (localStorage) ──────────────────────────────────────────
+const Carrito = {
+  get() {
+    try { return JSON.parse(localStorage.getItem('isp_cart') || '[]'); } catch { return []; }
+  },
+  save(items) {
+    localStorage.setItem('isp_cart', JSON.stringify(items));
+    Carrito.updateBadge();
+  },
+  add(producto) {
+    const items = Carrito.get();
+    const existe = items.find(i => i.shopifyId === producto.shopifyId);
+    if (existe) {
+      existe.qty = (existe.qty || 1) + 1;
+    } else {
+      items.push({ shopifyId: producto.shopifyId, nombre: producto.nombre,
+                   imagen: producto.imagen, qty: 1 });
+    }
+    Carrito.save(items);
+  },
+  remove(shopifyId) {
+    Carrito.save(Carrito.get().filter(i => i.shopifyId !== shopifyId));
+  },
+  clear() { Carrito.save([]); },
+  count() { return Carrito.get().reduce((n, i) => n + (i.qty || 1), 0); },
+  updateBadge() {
+    const c = Carrito.count();
+    document.querySelectorAll('.cart-badge').forEach(el => {
+      el.textContent = c;
+      el.style.display = c > 0 ? 'flex' : 'none';
+    });
+  }
+};
+
+// ── Extraer specs desde HTML de descripción ─────────────────────────
+function extraerSpecs(html) {
+  if (!html) return {};
+  const txt = html.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+  const get = (key) => {
+    const m = txt.match(new RegExp(key + '[:\\s]+([^·\\n<]+)', 'i'));
+    return m ? m[1].trim() : null;
+  };
+  // Tipo: primera línea en negrita (entre ** o al inicio)
+  const tipoMatch = html.match(/<b>([^<]+)<\/b>/i);
+  return {
+    tipo:        tipoMatch ? tipoMatch[1].replace(/\.$/, '').trim() : null,
+    material:    get('Material'),
+    procedencia: get('Procedencia'),
+  };
+}
+
+// ── Modal carrito ────────────────────────────────────────────────────
+function abrirModalCarrito() {
+  document.getElementById('cart-overlay')?.remove();
+
+  const items = Carrito.get();
+  const waItems = items.map(i => `• ${i.nombre} (x${i.qty})`).join('\n');
+  const waMsg = encodeURIComponent(`Hola ISPerformance, quisiera cotizar los siguientes productos:\n\n${waItems}\n\n¿Podrían darme precios y disponibilidad?`);
+  const waLink = `https://wa.me/56985615636?text=${waMsg}`;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'cart-overlay';
+  overlay.innerHTML = `
+    <div class="cart-modal">
+      <div class="cart-modal-header">
+        <h3>Carrito</h3>
+        <button class="cart-close" id="cart-close">✕</button>
+      </div>
+      <div class="cart-modal-items">
+        ${items.length === 0
+          ? '<p class="cart-empty">Tu carrito está vacío.</p>'
+          : items.map(i => `
+            <div class="cart-item">
+              <img src="${i.imagen}" alt="${i.nombre}"
+                   onerror="this.style.display='none'" />
+              <div class="cart-item-info">
+                <span class="cart-item-name">${i.nombre}</span>
+                <span class="cart-item-qty">Cant: ${i.qty}</span>
+              </div>
+              <button class="cart-item-remove" data-id="${i.shopifyId}">✕</button>
+            </div>`).join('')}
+      </div>
+      ${items.length > 0 ? `
+      <div class="cart-modal-footer">
+        <button class="btn btn-secondary" id="cart-seguir">← Seguir comprando</button>
+        <a class="btn btn-wa" href="${waLink}" target="_blank" rel="noopener" id="cart-pagar">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.55 4.086 1.512 5.802L0 24l6.389-1.674A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.371l-.36-.213-3.724.976.994-3.622-.234-.373A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+          Cotizar por WhatsApp
+        </a>
+      </div>` : ''}
+    </div>`;
+
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('visible'));
+
+  document.getElementById('cart-close')?.addEventListener('click', cerrarCarrito);
+  document.getElementById('cart-seguir')?.addEventListener('click', cerrarCarrito);
+  overlay.addEventListener('click', e => { if (e.target === overlay) cerrarCarrito(); });
+  overlay.querySelectorAll('.cart-item-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      Carrito.remove(parseInt(btn.dataset.id));
+      abrirModalCarrito();
+    });
+  });
+}
+
+function cerrarCarrito() {
+  const overlay = document.getElementById('cart-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('visible');
+  setTimeout(() => overlay.remove(), 250);
+}
+
+// ── Toast "agregado al carrito" ──────────────────────────────────────
+function mostrarToast(nombre) {
+  document.getElementById('isp-toast')?.remove();
+  const toast = document.createElement('div');
+  toast.id = 'isp-toast';
+  toast.innerHTML = `
+    <span>✓ <strong>${nombre}</strong> agregado</span>
+    <div class="toast-btns">
+      <button id="toast-seguir">Seguir comprando</button>
+      <button id="toast-carrito" class="toast-primary">Ver carrito</button>
+    </div>`;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('visible'));
+
+  const hide = () => { toast.classList.remove('visible'); setTimeout(() => toast.remove(), 300); };
+  document.getElementById('toast-seguir').addEventListener('click', hide);
+  document.getElementById('toast-carrito').addEventListener('click', () => { hide(); abrirModalCarrito(); });
+  setTimeout(hide, 5000);
+}
+
+// ── Página de detalle ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async function () {
+  Carrito.updateBadge();
 
   const params = new URLSearchParams(window.location.search);
   const id = parseInt(params.get('id'));
-  if (!id) {
-    document.getElementById('detalle-container').innerHTML = '<div class="detalle-error">Producto no especificado.</div>';
-    return;
-  }
+  const container = document.getElementById('detalle-container');
+
+  if (!id) { container.innerHTML = '<div class="detalle-error">Producto no especificado.</div>'; return; }
 
   const productos = await cargarProductos();
   const producto = productos.find(p => p.id === id);
-  if (!producto) {
-    document.getElementById('detalle-container').innerHTML = '<div class="detalle-error">Producto no encontrado.</div>';
-    return;
-  }
+  if (!producto) { container.innerHTML = '<div class="detalle-error">Producto no encontrado.</div>'; return; }
 
   document.title = producto.nombre + ' — ISperformance';
 
-  const key = producto.categoria + '|' + producto.nombre;
-  const extras = (typeof IMAGENES_ADICIONALES !== 'undefined' ? IMAGENES_ADICIONALES[key] : null) || [];
-  const todasImagenes = [producto.imagen, ...extras.map(f => urlImagen(producto.categoria, f))];
+  const specs   = extraerSpecs(producto.descripcionHTML);
+  const imgs    = producto.imagenes?.length ? producto.imagenes : [producto.imagen];
+  const vehiculos = (producto.vehiculos || []).filter(v => v.marca);
 
-  const vehiculos = producto.vehiculos.filter(v => v.marca);
-
-  const maxPrecio = vehiculos.length ? Math.max(...vehiculos.map(v => v.precio)) : 0;
-  const precioStr = maxPrecio ? '$' + maxPrecio.toLocaleString('es-CL') : 'Consultar';
-
-  const shopifyHtml = producto.shopifyId
-    ? `<a href="https://${producto.shopifyId}" target="_blank" rel="noopener" class="btn btn-primary btn-shopify">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        Comprar en ISperformance
-      </a>`
-    : `<a href="https://wa.me/56912345678?text=${encodeURIComponent('Hola, quiero cotizar ' + producto.nombre)}" target="_blank" rel="noopener" class="btn btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Consultar
-      </a>`;
-
-  document.getElementById('detalle-container').innerHTML = `
+  container.innerHTML = `
     <div class="detalle-grid">
+
+      <!-- IMÁGENES -->
       <div class="detalle-imagenes">
         <div class="detalle-img-main">
-          <img id="detalle-img-principal" src="${todasImagenes[0]}" alt="${producto.nombre}" />
+          <img id="detalle-img-principal"
+               src="${imgs[0]}"
+               alt="${producto.nombre}"
+               onerror="this.src='https://placehold.co/600x420/1A1A1A/FF6B00?text=${encodeURIComponent(producto.nombre)}'" />
         </div>
-        ${todasImagenes.length > 1 ? `
+        ${imgs.length > 1 ? `
         <div class="detalle-thumbs">
-          ${todasImagenes.map((url, i) =>
-            `<div class="detalle-thumb${i === 0 ? ' active' : ''}" data-img="${url}">
-              <img src="${url}" alt="${producto.nombre}" loading="lazy" />
-            </div>`
-          ).join('')}
+          ${imgs.map((url, i) => `
+            <div class="detalle-thumb${i === 0 ? ' active' : ''}" data-img="${url}">
+              <img src="${url}" alt="${producto.nombre}" loading="lazy"
+                   onerror="this.parentElement.style.display='none'" />
+            </div>`).join('')}
         </div>` : ''}
       </div>
+
+      <!-- INFO -->
       <div class="detalle-info">
+        <div class="detalle-breadcrumb">
+          <a href="index.html">ISperformance</a>
+          <span>›</span>
+          <span>${producto.categoria}</span>
+        </div>
+
         <span class="detalle-cat">${producto.categoria}</span>
         <h1 class="detalle-title">${producto.nombre}</h1>
-        <p class="detalle-desc">${producto.descripcion}</p>
+        <p class="detalle-vendor">Marca: <strong>${producto.vendor || 'ISPerformance'}</strong></p>
 
+        <!-- Descripción completa -->
+        <div class="detalle-desc-html">${producto.descripcionHTML || producto.descripcion}</div>
+
+        <!-- Specs técnicas -->
         <div class="detalle-specs">
-          ${[
-            { label: 'Tipo', value: producto.tipo || '-' },
-            { label: 'Procedencia', value: producto.procedencia || '-' },
-            { label: 'Material', value: producto.material || '-' }
-          ].map(s => `
-            <div class="detalle-spec">
-              <div class="detalle-spec-label">${s.label}</div>
-              <div class="detalle-spec-value">${s.value}</div>
-            </div>
-          `).join('')}
+          ${specs.tipo ? `
+          <div class="detalle-spec">
+            <div class="detalle-spec-label">Tipo</div>
+            <div class="detalle-spec-value">${specs.tipo}</div>
+          </div>` : ''}
+          ${specs.material ? `
+          <div class="detalle-spec">
+            <div class="detalle-spec-label">Material</div>
+            <div class="detalle-spec-value">${specs.material}</div>
+          </div>` : ''}
+          ${specs.procedencia ? `
+          <div class="detalle-spec">
+            <div class="detalle-spec-label">Procedencia</div>
+            <div class="detalle-spec-value">${specs.procedencia}</div>
+          </div>` : ''}
         </div>
 
+        <!-- Compatibilidad -->
+        ${vehiculos.length ? `
         <div class="detalle-vehiculos">
-          <div class="detalle-vehiculos-titulo">Compatibilidad (${vehiculos.length})</div>
+          <div class="detalle-vehiculos-titulo">Compatible con (${vehiculos.length})</div>
           <div class="detalle-vehiculos-lista">
             ${vehiculos.map(v => {
-              const rango = v.años.length ? `${Math.min(...v.años)}-${Math.max(...v.años)}` : '';
-              return `<span class="compat-tag">${v.marca} ${v.modelo} ${rango}</span>`;
+              const rango = v.años.length ? `${Math.min(...v.años)}–${Math.max(...v.años)}` : '';
+              return `<span class="compat-tag">${v.marca} ${v.modelo}${rango ? ' ' + rango : ''}</span>`;
             }).join('')}
           </div>
-        </div>
+        </div>` : ''}
 
+        <!-- Footer / acciones -->
         <div class="detalle-footer">
-          <span class="detalle-precio">${precioStr}</span>
-          ${shopifyHtml}
+          <span class="detalle-precio">Consultar precio</span>
+          <button class="btn btn-primary btn-carrito" id="btn-agregar-carrito">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Agregar al carrito
+          </button>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  // Switch main image on thumbnail click
+  // Galería: click en thumbnail
   document.querySelectorAll('.detalle-thumb').forEach(el => {
     el.addEventListener('click', function () {
       document.getElementById('detalle-img-principal').src = this.dataset.img;
       document.querySelector('.detalle-thumb.active')?.classList.remove('active');
       this.classList.add('active');
     });
+  });
+
+  // Agregar al carrito
+  document.getElementById('btn-agregar-carrito')?.addEventListener('click', () => {
+    Carrito.add(producto);
+    mostrarToast(producto.nombre);
   });
 });
