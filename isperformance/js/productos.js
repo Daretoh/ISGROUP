@@ -60,6 +60,9 @@ async function cargarProductos() {
       const imgs    = p.images || [];
       const vehiculos = (compat[p.title] || []);
 
+      const variant = p.variants && p.variants[0] ? p.variants[0] : {};
+      const precio  = parseFloat(variant.price) || 0;
+
       return {
         id:          ++id,
         shopifyId:   p.id,
@@ -75,6 +78,8 @@ async function cargarProductos() {
           : '',
         descripcionHTML: p.description || '',
         shopifyUrl:  p.shopify_url || '',
+        variantId:   variant.id || null,
+        precio,
         vehiculos
       };
     });

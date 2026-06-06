@@ -14,7 +14,8 @@ const Carrito = {
       existe.qty = (existe.qty || 1) + 1;
     } else {
       items.push({ shopifyId: producto.shopifyId, nombre: producto.nombre,
-                   imagen: producto.imagen, qty: 1 });
+                   imagen: producto.imagen, precio: producto.precio,
+                   variantId: producto.variantId, qty: 1 });
     }
     Carrito.save(items);
   },
@@ -50,13 +51,24 @@ function extraerSpecs(html) {
 }
 
 // ── Modal carrito ────────────────────────────────────────────────────
+function formatCLP(n) {
+  return '$' + Math.round(n).toLocaleString('es-CL');
+}
+
+function checkoutUrl(items) {
+  const lineas = items
+    .filter(i => i.variantId)
+    .map(i => `${i.variantId}:${i.qty || 1}`)
+    .join(',');
+  return lineas ? `https://is-perfomance.myshopify.com/cart/${lineas}` : null;
+}
+
 function abrirModalCarrito() {
   document.getElementById('cart-overlay')?.remove();
 
   const items = Carrito.get();
-  const waItems = items.map(i => `• ${i.nombre} (x${i.qty})`).join('\n');
-  const waMsg = encodeURIComponent(`Hola ISPerformance, quisiera cotizar los siguientes productos:\n\n${waItems}\n\n¿Podrían darme precios y disponibilidad?`);
-  const waLink = `https://wa.me/56985615636?text=${waMsg}`;
+  const url   = checkoutUrl(items);
+  const total = items.reduce((s, i) => s + (i.precio || 0) * (i.qty || 1), 0);
 
   const overlay = document.createElement('div');
   overlay.id = 'cart-overlay';
@@ -75,18 +87,21 @@ function abrirModalCarrito() {
                    onerror="this.style.display='none'" />
               <div class="cart-item-info">
                 <span class="cart-item-name">${i.nombre}</span>
-                <span class="cart-item-qty">Cant: ${i.qty}</span>
+                <span class="cart-item-qty">Cant: ${i.qty}${i.precio ? ' · ' + formatCLP(i.precio * i.qty) : ''}</span>
               </div>
               <button class="cart-item-remove" data-id="${i.shopifyId}">✕</button>
             </div>`).join('')}
       </div>
       ${items.length > 0 ? `
+      ${total > 0 ? `<div class="cart-total">Total: <strong>${formatCLP(total)}</strong></div>` : ''}
       <div class="cart-modal-footer">
         <button class="btn btn-secondary" id="cart-seguir">← Seguir comprando</button>
-        <a class="btn btn-wa" href="${waLink}" target="_blank" rel="noopener" id="cart-pagar">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.55 4.086 1.512 5.802L0 24l6.389-1.674A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.371l-.36-.213-3.724.976.994-3.622-.234-.373A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-          Cotizar por WhatsApp
-        </a>
+        ${url
+          ? `<a class="btn btn-primary" href="${url}" target="_blank" rel="noopener" id="cart-pagar">
+               Ir a pagar →
+             </a>`
+          : `<button class="btn btn-primary" id="cart-pagar-wa">Cotizar por WhatsApp</button>`
+        }
       </div>` : ''}
     </div>`;
 
@@ -101,6 +116,12 @@ function abrirModalCarrito() {
       Carrito.remove(parseInt(btn.dataset.id));
       abrirModalCarrito();
     });
+  });
+  document.getElementById('cart-pagar-wa')?.addEventListener('click', () => {
+    const its = Carrito.get();
+    const txt = its.map(i => `• ${i.nombre} x${i.qty}${i.precio ? ' (' + formatCLP(i.precio * i.qty) + ')' : ''}`).join('\n');
+    const msg = encodeURIComponent(`Hola ISPerformance, quiero comprar:\n\n${txt}\n\n¿Cómo procedo con el pago?`);
+    window.open(`https://wa.me/56985615636?text=${msg}`, '_blank');
   });
 }
 
@@ -220,7 +241,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         <!-- Footer / acciones -->
         <div class="detalle-footer">
-          <span class="detalle-precio">Consultar precio</span>
+          <span class="detalle-precio">${producto.precio ? formatCLP(producto.precio) : 'Consultar precio'}</span>
           <button class="btn btn-primary btn-carrito" id="btn-agregar-carrito">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
