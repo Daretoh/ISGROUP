@@ -98,12 +98,7 @@ function abrirModalCarrito() {
       ${total > 0 ? `<div class="cart-total">Total: <strong>${formatCLP(total)}</strong></div>` : ''}
       <div class="cart-modal-footer">
         <button class="btn btn-secondary" id="cart-seguir">← Seguir comprando</button>
-        ${url
-          ? `<a class="btn btn-primary" href="${url}" target="_blank" rel="noopener" id="cart-pagar">
-               Ir a pagar →
-             </a>`
-          : `<button class="btn btn-primary" id="cart-pagar-wa">Cotizar por WhatsApp</button>`
-        }
+        <button class="btn btn-primary" id="cart-pagar">Ir a pagar →</button>
       </div>` : ''}
     </div>`;
 
@@ -119,11 +114,19 @@ function abrirModalCarrito() {
       abrirModalCarrito();
     });
   });
-  document.getElementById('cart-pagar-wa')?.addEventListener('click', () => {
+  document.getElementById('cart-pagar')?.addEventListener('click', () => {
     const its = Carrito.get();
-    const txt = its.map(i => `• ${i.nombre} x${i.qty}${i.precio ? ' (' + formatCLP(i.precio * i.qty) + ')' : ''}`).join('\n');
-    const msg = encodeURIComponent(`Hola ISPerformance, quiero comprar:\n\n${txt}\n\n¿Cómo procedo con el pago?`);
-    window.open(`https://wa.me/56985615636?text=${msg}`, '_blank');
+    const shopifyUrl = checkoutUrl(its);
+    if (shopifyUrl) {
+      // Intenta Shopify checkout; si el tema no está publicado caerá en error
+      window.open(shopifyUrl, '_blank');
+    } else {
+      // Fallback: WhatsApp con detalle del pedido
+      const txt = its.map(i => `• ${i.nombre} x${i.qty}${i.precio ? ' (' + formatCLP(i.precio * i.qty) + ')' : ''}`).join('\n');
+      const total = its.reduce((s, i) => s + (i.precio || 0) * (i.qty || 1), 0);
+      const msg = encodeURIComponent(`Hola ISPerformance, quiero comprar:\n\n${txt}\n\nTotal referencial: ${formatCLP(total)}\n\n¿Cómo procedo con el pago?`);
+      window.open(`https://wa.me/56985615636?text=${msg}`, '_blank');
+    }
   });
 }
 
