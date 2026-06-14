@@ -10,6 +10,197 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
+  <style>
+    /* ---- Zona Socios: botón navbar ---- */
+    .btn-socio {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      border: 1.5px solid rgba(255,107,0,0.45);
+      border-radius: 8px;
+      background: rgba(255,107,0,0.08);
+      color: var(--orange-400);
+      cursor: pointer;
+      transition: 0.25s;
+      white-space: nowrap;
+    }
+    .btn-socio:hover {
+      background: rgba(255,107,0,0.18);
+      border-color: var(--orange-500);
+      color: var(--orange-500);
+    }
+    .nav-socio-logged {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-user-chip {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--orange-500);
+      background: rgba(255,107,0,0.1);
+      border: 1px solid rgba(255,107,0,0.25);
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .btn-cot-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 15px;
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 8px;
+      background: var(--orange-500);
+      color: #fff;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .btn-cot-link:hover { background: var(--orange-400); }
+    .btn-logout {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      font-family: var(--font);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--gray-400);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-logout:hover { border-color: #f87171; color: #f87171; }
+
+    /* ---- Modal overlay ---- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal-card {
+      background: #111111;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 48px 40px 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      position: relative;
+      animation: modalIn 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to   { opacity: 1; transform: none; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: none;
+      border: none;
+      color: #555;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: 0.15s;
+    }
+    .modal-close:hover { color: #aaa; background: rgba(255,255,255,0.06); }
+    .modal-logo { height: 36px; margin: 0 auto 24px; }
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .modal-sub {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .modal-form { text-align: left; }
+    .modal-field {
+      margin-bottom: 14px;
+    }
+    .modal-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #888;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .modal-field input {
+      width: 100%;
+      padding: 11px 14px;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #e5e5e5;
+      outline: none;
+      transition: 0.2s;
+    }
+    .modal-field input:focus {
+      border-color: var(--orange-500);
+      box-shadow: 0 0 0 3px rgba(255,107,0,0.15);
+    }
+    .modal-error {
+      display: none;
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 8px;
+      color: #f87171;
+      font-size: 0.82rem;
+      padding: 9px 14px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .modal-error.visible { display: block; }
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: var(--orange-500);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: 0.2s;
+    }
+    .btn-login:hover {
+      background: var(--orange-400);
+      box-shadow: 0 6px 24px rgba(255,107,0,0.35);
+    }
+    .modal-footer {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: #444;
+    }
+  </style>
 </head>
 <body class="subpage ismarket-page">
 
@@ -24,6 +215,7 @@
         <li><a href="#productos" class="nav-link active">Productos</a></li>
         <li><a href="#contacto" class="nav-link">Contacto</a></li>
       </ul>
+      <div id="nav-socio-area"></div>
     </div>
   </nav>
 
@@ -135,21 +327,6 @@
           </div>
         </div>
       </div>
-
-      <!--
-      ==========================================
-      INTEGRACIÓN CON SHOPIFY
-      ==========================================
-      Para conectar con Shopify, reemplaza los
-      productos de arriba con los Buy Buttons:
-      https://shopify.com/buy-button
-
-      1. En Shopify: Configuración → Buy Button
-      2. Genera el embed de cada producto
-      3. Reemplaza cada .producto-card con el
-         código generado por Shopify
-      ==========================================
-      -->
     </div>
   </section>
 
@@ -202,6 +379,102 @@
     </div>
   </footer>
 
+  <!-- MODAL LOGIN -->
+  <div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">×</button>
+      <img src="../assets/images/ISGROUP-pb2.png" alt="IS GROUP" class="modal-logo" />
+      <h2 class="modal-title" id="modal-title">Zona <span class="highlight">Socios</span></h2>
+      <p class="modal-sub">Acceso exclusivo para socios IS Group</p>
+      <form class="modal-form" onsubmit="handleLogin(event)">
+        <div class="modal-field">
+          <label for="login-user">Usuario</label>
+          <input type="text" id="login-user" autocomplete="username" placeholder="Tu usuario" required />
+        </div>
+        <div class="modal-field">
+          <label for="login-pass">Contraseña</label>
+          <input type="password" id="login-pass" autocomplete="current-password" placeholder="Tu contraseña" required />
+        </div>
+        <div class="modal-error" id="login-error">Usuario o contraseña incorrectos.</div>
+        <button type="submit" class="btn-login">Ingresar</button>
+      </form>
+      <p class="modal-footer">¿Problemas para ingresar? Contacta al administrador.</p>
+    </div>
+  </div>
+
   <script src="../js/main.js"></script>
+  <script>
+    const SOCIOS = { 'JorgeC': 'ISP2026+', 'EnzoC': 'ISP2026+' };
+
+    function renderNavSocio() {
+      const user = sessionStorage.getItem('ism_auth');
+      const area = document.getElementById('nav-socio-area');
+      if (user) {
+        area.innerHTML = `
+          <div class="nav-socio-logged">
+            <span class="nav-user-chip">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              ${user}
+            </span>
+            <a href="cotizador.html" class="btn-cot-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Cotizador
+            </a>
+            <button class="btn-logout" onclick="logout()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Salir
+            </button>
+          </div>`;
+      } else {
+        area.innerHTML = `
+          <button class="btn-socio" onclick="abrirModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Zona Socios
+          </button>`;
+      }
+    }
+
+    function abrirModal() {
+      document.getElementById('modal-login').classList.add('open');
+      document.getElementById('login-user').focus();
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal-login').classList.remove('open');
+      document.getElementById('login-error').classList.remove('visible');
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      if (SOCIOS[user] && SOCIOS[user] === pass) {
+        sessionStorage.setItem('ism_auth', user);
+        cerrarModal();
+        window.location.href = 'cotizador.html';
+      } else {
+        document.getElementById('login-error').classList.add('visible');
+        document.getElementById('login-pass').value = '';
+        document.getElementById('login-pass').focus();
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('ism_auth');
+      renderNavSocio();
+    }
+
+    document.getElementById('modal-login').addEventListener('click', function(e) {
+      if (e.target === this) cerrarModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') cerrarModal();
+    });
+
+    renderNavSocio();
+  </script>
 </body>
 </html>
