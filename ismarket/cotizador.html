@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cotizador — ISmarket</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
+  <style>
+    /* ---- Variables para el cotizador (mapeadas al tema IS GROUP) ---- */
+    :root {
+      --color-text-primary: #E5E5E5;
+      --color-text-secondary: #888888;
+      --color-text-info: #60a5fa;
+      --color-text-success: #4ade80;
+      --color-text-danger: #f87171;
+      --color-text-warning: #fb923c;
+      --color-background-primary: #111111;
+      --color-background-secondary: #1A1A1A;
+      --color-background-tertiary: #222222;
+      --color-background-info: rgba(96,165,250,0.08);
+      --color-background-success: rgba(74,222,128,0.08);
+      --color-background-danger: rgba(248,113,113,0.08);
+      --color-background-warning: rgba(251,146,60,0.08);
+      --color-border-secondary: rgba(255,255,255,0.12);
+      --color-border-tertiary: rgba(255,255,255,0.06);
+      --color-border-info: rgba(96,165,250,0.4);
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --border-radius-lg: 12px;
+      --border-radius-md: 8px;
+    }
+
+    /* ---- Página cotizador ---- */
+    .cot-page {
+      padding: 100px 0 80px;
+      min-height: 100vh;
+    }
+    .cot-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .cot-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .cot-header p {
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    /* ---- Navbar botones socio ---- */
+    .nav-user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--orange-500);
+      background: rgba(255,107,0,0.1);
+      border: 1px solid rgba(255,107,0,0.25);
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .btn-nav-exit {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 15px;
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      background: transparent;
+      color: #888;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-nav-exit:hover { border-color: #f87171; color: #f87171; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    /* ---- Cotizador: contenedor raíz ---- */
+    .cot-root {
+      width: 100%;
+    }
+
+    /* ---- Cotizador: card ---- */
+    .cot-root .card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .cot-root .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    .cot-root .param-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .cot-root .param-item label {
+      display: block;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-bottom: 5px;
+    }
+    .cot-root .param-item input {
+      width: 100%;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: var(--border-radius-md);
+      background: var(--color-background-secondary);
+      color: var(--color-text-primary);
+      outline: none;
+      transition: 0.15s;
+    }
+    .cot-root .param-item input:focus {
+      border-color: var(--color-border-info);
+      box-shadow: 0 0 0 2px rgba(96,165,250,0.12);
+    }
+    .cot-root .tarifa-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    .cot-root .tarifa-item { text-align: center; }
+    .cot-root .tarifa-item label {
+      display: block;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-bottom: 4px;
+    }
+    .cot-root .tarifa-item input {
+      width: 100%;
+      padding: 6px 5px;
+      font-size: 12px;
+      font-family: var(--font-sans);
+      text-align: center;
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: var(--border-radius-md);
+      background: var(--color-background-secondary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+    .cot-root .tbl-wrap { overflow-x: auto; }
+    .cot-root table.main {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 1200px;
+    }
+    .cot-root table.main th {
+      padding: 9px 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 11px;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      white-space: nowrap;
+      color: var(--color-text-secondary);
+    }
+    .cot-root th.inp-hdr  { background: var(--color-background-info);    color: var(--color-text-info); }
+    .cot-root th.calc-hdr { background: var(--color-background-tertiary); color: var(--color-text-secondary); }
+    .cot-root th.res-hdr  { background: var(--color-background-success);  color: var(--color-text-success); }
+    .cot-root th.mrg-hdr  { background: var(--color-background-warning);  color: var(--color-text-warning); }
+    .cot-root table.main td {
+      padding: 7px 8px;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      vertical-align: middle;
+      text-align: center;
+      color: var(--color-text-primary);
+    }
+    .cot-root table.main tr:last-child td { border-bottom: none; }
+    .cot-root table.main tr:nth-child(even) td { background: var(--color-background-secondary); }
+    .cot-root td input {
+      width: 100%;
+      padding: 5px 6px;
+      font-size: 12px;
+      font-family: var(--font-sans);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: 4px;
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      text-align: center;
+      outline: none;
+    }
+    .cot-root td input:focus { outline: 2px solid var(--color-border-info); }
+    .cot-root .calc-cell  { color: var(--color-text-secondary); font-style: italic; white-space: nowrap; }
+    .cot-root .result-cell { font-weight: 600; color: var(--color-text-success); text-align: right; white-space: nowrap; }
+    .cot-root .total-cell  { font-weight: 600; color: var(--color-text-danger);  text-align: right; white-space: nowrap; }
+    .cot-root .margen-cell { font-weight: 600; color: var(--color-text-warning); text-align: right; white-space: nowrap; }
+    .cot-root .btn-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: var(--border-radius-md);
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.15s;
+    }
+    .cot-root .btn-add:hover { background: var(--color-background-secondary); }
+    .cot-root .btn-del {
+      background: none;
+      border: none;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      line-height: 1;
+      transition: 0.15s;
+    }
+    .cot-root .btn-del:hover { color: var(--color-text-danger); background: var(--color-background-danger); }
+    .cot-root .res-globales {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .cot-root .res-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--color-background-secondary);
+      border-radius: var(--border-radius-md);
+      font-size: 13px;
+      gap: 12px;
+    }
+    .cot-root .res-label { color: var(--color-text-secondary); }
+    .cot-root .res-val   { font-weight: 600; color: var(--color-text-primary); }
+    .cot-root .res-item.info    { background: var(--color-background-info); }
+    .cot-root .res-item.info .res-label,
+    .cot-root .res-item.info .res-val    { color: var(--color-text-info); }
+    .cot-root .res-item.danger  { background: var(--color-background-danger); grid-column: 1 / -1; }
+    .cot-root .res-item.danger .res-label,
+    .cot-root .res-item.danger .res-val  { color: var(--color-text-danger); }
+    .cot-root .res-item.warning { background: var(--color-background-warning); }
+    .cot-root .res-item.warning .res-label,
+    .cot-root .res-item.warning .res-val { color: var(--color-text-warning); }
+    .cot-root .res-item.alerta  { background: var(--color-background-danger); }
+    .cot-root .res-item.alerta .res-label,
+    .cot-root .res-item.alerta .res-val  { color: var(--color-text-danger); }
+    .cot-root .prod-resumen {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    .cot-root .prod-resumen th {
+      background: var(--color-background-tertiary);
+      padding: 8px 10px;
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      white-space: nowrap;
+      text-align: right;
+    }
+    .cot-root .prod-resumen th:first-child { text-align: left; }
+    .cot-root .prod-resumen td {
+      padding: 9px 10px;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      font-size: 12px;
+      text-align: right;
+      color: var(--color-text-primary);
+    }
+    .cot-root .prod-resumen td:first-child { text-align: left; }
+    .cot-root .prod-resumen tr:last-child td { border-bottom: none; }
+    .cot-root .prod-resumen tr:nth-child(even) td { background: var(--color-background-secondary); }
+    .cot-root .prod-resumen tr.totales td {
+      background: var(--color-background-tertiary);
+      font-weight: 600;
+      border-top: 1px solid var(--color-border-secondary);
+    }
+    .cot-root .c-sec  { color: var(--color-text-secondary); }
+    .cot-root .c-cost { font-weight: 600; color: var(--color-text-success); }
+    .cot-root .c-tot  { font-weight: 600; color: var(--color-text-danger); }
+    .cot-root .c-mrg  { font-weight: 600; color: var(--color-text-warning); }
+    .cot-root .c-pv   { font-weight: 600; color: var(--color-text-primary); }
+    .cot-root .nota {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-top: 12px;
+      line-height: 1.8;
+    }
+    .cot-root .nota strong { font-weight: 600; color: var(--color-text-primary); }
+
+    @media (max-width: 640px) {
+      .cot-root .tarifa-grid { grid-template-columns: repeat(3, 1fr); }
+      .cot-root .res-globales { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="subpage ismarket-page">
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="../assets/images/ISGROUP-pb2.png" alt="IS GROUP" class="logo-img" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link">Inicio</a></li>
+        <li><a href="index.html" class="nav-link">ISmarket</a></li>
+      </ul>
+      <div class="nav-right">
+        <span class="nav-user-chip" id="nav-user-name">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Socio
+        </span>
+        <button class="btn-nav-exit" onclick="logout()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- COTIZADOR -->
+  <div class="cot-page">
+    <div class="container">
+      <div class="cot-header">
+        <h1>Cotizador IS<span class="highlight">market</span></h1>
+        <p>Alibaba / WS Cargo / Puerto Montt — Zona exclusiva socios</p>
+      </div>
+
+      <div class="cot-root">
+
+        <div class="card">
+          <div class="section-title">Parámetros generales</div>
+          <div class="param-grid">
+            <div class="param-item"><label>Tipo de cambio USD → CLP</label><input type="number" id="tc" value="950" step="1" oninput="calcular()"></div>
+            <div class="param-item"><label>Colchón cambiario (%)</label><input type="number" id="colchon" value="3" step="0.5" oninput="calcular()"></div>
+            <div class="param-item"><label>IVA (%)</label><input type="number" id="iva" value="19" step="1" oninput="calcular()"></div>
+            <div class="param-item"><label>Traslado Stgo → Pto Montt (CLP)</label><input type="number" id="traslado" value="0" step="1000" oninput="calcular()"></div>
+          </div>
+          <div class="section-title">Tarifas WS Cargo (USD/m³) — m³ siempre al entero superior</div>
+          <div class="tarifa-grid">
+            <div class="tarifa-item"><label>0–4 m³</label><input type="number" id="t0" value="240" oninput="calcular()"></div>
+            <div class="tarifa-item"><label>5–9 m³</label><input type="number" id="t5" value="220" oninput="calcular()"></div>
+            <div class="tarifa-item"><label>10–14 m³</label><input type="number" id="t10" value="200" oninput="calcular()"></div>
+            <div class="tarifa-item"><label>15–24 m³</label><input type="number" id="t15" value="190" oninput="calcular()"></div>
+            <div class="tarifa-item"><label>25+ m³</label><input type="number" id="t25" value="170" oninput="calcular()"></div>
+            <div class="tarifa-item"><label>Recargo &lt;5m³ (USD)</label><input type="number" id="recargo" value="100" oninput="calcular()"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Productos del pedido</div>
+          <div class="tbl-wrap">
+            <table class="main">
+              <thead>
+                <tr>
+                  <th class="inp-hdr">Producto</th>
+                  <th class="inp-hdr">Largo caja (cm)</th>
+                  <th class="inp-hdr">Ancho caja (cm)</th>
+                  <th class="inp-hdr">Alto caja (cm)</th>
+                  <th class="inp-hdr">Unid. por caja</th>
+                  <th class="inp-hdr">Unidades que quiero</th>
+                  <th class="inp-hdr">EXW (USD/u)</th>
+                  <th class="calc-hdr">Cajas necesarias</th>
+                  <th class="calc-hdr">Unid. reales</th>
+                  <th class="res-hdr">m³ cobrable</th>
+                  <th class="res-hdr">Flete/u (USD)</th>
+                  <th class="res-hdr">Arancel/u (USD)</th>
+                  <th class="res-hdr">IVA CIF/u (CLP)</th>
+                  <th class="res-hdr">Traslado/u (CLP)</th>
+                  <th class="res-hdr">Costo unit. (CLP)</th>
+                  <th class="res-hdr">Total costo (CLP)</th>
+                  <th class="mrg-hdr">Margen % (ej: 30)</th>
+                  <th class="mrg-hdr">Precio venta/u (CLP)</th>
+                  <th class="mrg-hdr">Venta total (CLP)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <button class="btn-add" onclick="agregarFila()">+ Agregar producto</button>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Resumen del pedido</div>
+          <div class="res-globales" id="res-globales"></div>
+          <div class="section-title" style="margin-top:10px">Detalle por producto</div>
+          <table class="prod-resumen">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cajas</th>
+                <th>Unidades reales</th>
+                <th>Costo unit. (CLP)</th>
+                <th>Total costo (CLP)</th>
+                <th>Margen (%)</th>
+                <th>Ganancia unit. (CLP)</th>
+                <th>Ganancia total (CLP)</th>
+                <th>Precio venta/u (CLP)</th>
+                <th>Venta total (CLP)</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-resumen"></tbody>
+          </table>
+          <p class="nota">
+            <strong>Margen</strong>: ingresar como número entero. Ej: 30 = 30% de margen → precio venta = costo × 1.30.<br>
+            <strong>Ganancia unit.</strong> = precio venta − costo unitario &nbsp;|&nbsp; <strong>Ganancia total</strong> = ganancia × unidades.<br>
+            <strong>Recargo USD 100</strong> aplica cuando m³ totales son menores a 5 m³.<br>
+            <strong>IVA CIF</strong> = 19% sobre (EXW + flete/u) — se recupera como crédito fiscal.
+          </p>
+        </div>
+
+      </div><!-- .cot-root -->
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <img src="../assets/images/ISGROUP-pb2.png" alt="IS GROUP" class="logo-img" />
+      </div>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">ISmarket</a>
+        <a href="../index.html" class="footer-link">Inicio IS Group</a>
+      </div>
+      <p class="footer-copy">© 2026 ISmarket — IS GROUP. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    /* ---- Auth guard ---- */
+    (function () {
+      const u = sessionStorage.getItem('ism_auth');
+      if (!u) { window.location.replace('index.html'); return; }
+      document.getElementById('nav-user-name').innerHTML =
+        '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ' + u;
+    })();
+
+    function logout() {
+      sessionStorage.removeItem('ism_auth');
+      window.location.href = 'index.html';
+    }
+
+    /* ---- Cotizador ---- */
+    let filas = [];
+    let idCount = 0;
+
+    const fmt    = n => Math.round(n).toLocaleString('es-CL');
+    const fmtUSD = n => 'USD ' + n.toFixed(2);
+    const fmtM3  = n => n.toFixed(2) + ' m³';
+
+    function getP() {
+      return {
+        tcEf: (parseFloat(document.getElementById('tc').value)||950)*(1+(parseFloat(document.getElementById('colchon').value)||0)/100),
+        iva:  (parseFloat(document.getElementById('iva').value)||19)/100,
+        tras:  parseFloat(document.getElementById('traslado').value)||0,
+        t0:    parseFloat(document.getElementById('t0').value)||240,
+        t5:    parseFloat(document.getElementById('t5').value)||220,
+        t10:   parseFloat(document.getElementById('t10').value)||200,
+        t15:   parseFloat(document.getElementById('t15').value)||190,
+        t25:   parseFloat(document.getElementById('t25').value)||170,
+        rec:   parseFloat(document.getElementById('recargo').value)||100,
+      };
+    }
+
+    function getTarifa(m3, p) {
+      if (m3 < 5)  return p.t0;
+      if (m3 < 10) return p.t5;
+      if (m3 < 15) return p.t10;
+      if (m3 < 25) return p.t15;
+      return p.t25;
+    }
+
+    function agregarFila() {
+      filas.push({ id:++idCount, prod:'', largo:0, ancho:0, alto:0, uporcaja:1, unidades:0, exw:0, margen:30 });
+      renderTabla(); calcular();
+    }
+
+    function eliminarFila(id) {
+      filas = filas.filter(f => f.id!==id);
+      renderTabla(); calcular();
+    }
+
+    function setEl(id, txt) { const el=document.getElementById(id); if(el) el.textContent=txt; }
+
+    function upd(id, campo, val) {
+      const f = filas.find(f => f.id===id);
+      if (f) f[campo] = campo==='prod' ? val : parseFloat(val)||0;
+      calcular();
+    }
+
+    function renderTabla() {
+      document.getElementById('tbody').innerHTML = filas.map(f => `
+        <tr>
+          <td><input type="text" value="${f.prod}" placeholder="Nombre producto" style="width:130px;text-align:left" oninput="upd(${f.id},'prod',this.value)"></td>
+          <td><input type="number" value="${f.largo||''}" placeholder="0" style="width:56px" oninput="upd(${f.id},'largo',this.value)"></td>
+          <td><input type="number" value="${f.ancho||''}" placeholder="0" style="width:56px" oninput="upd(${f.id},'ancho',this.value)"></td>
+          <td><input type="number" value="${f.alto||''}" placeholder="0" style="width:56px" oninput="upd(${f.id},'alto',this.value)"></td>
+          <td><input type="number" value="${f.uporcaja||1}" placeholder="1" style="width:56px" min="1" oninput="upd(${f.id},'uporcaja',this.value)"></td>
+          <td><input type="number" value="${f.unidades||''}" placeholder="0" style="width:70px" oninput="upd(${f.id},'unidades',this.value)"></td>
+          <td><input type="number" value="${f.exw||''}" placeholder="0" step="0.01" style="width:70px" oninput="upd(${f.id},'exw',this.value)"></td>
+          <td class="calc-cell" id="cajas-${f.id}">—</td>
+          <td class="calc-cell" id="ureal-${f.id}">—</td>
+          <td class="calc-cell" id="m3-${f.id}">—</td>
+          <td class="calc-cell" id="flete-${f.id}">—</td>
+          <td class="calc-cell" id="aran-${f.id}">—</td>
+          <td class="calc-cell" id="ivac-${f.id}">—</td>
+          <td class="calc-cell" id="tras-${f.id}">—</td>
+          <td class="result-cell" id="unit-${f.id}">—</td>
+          <td class="total-cell" id="tot-${f.id}">—</td>
+          <td><input type="number" value="${f.margen}" placeholder="30" style="width:56px" min="0" max="99" step="1" oninput="upd(${f.id},'margen',this.value)"></td>
+          <td class="margen-cell" id="pventa-${f.id}">—</td>
+          <td class="margen-cell" id="vtotal-${f.id}">—</td>
+          <td><button class="btn-del" onclick="eliminarFila(${f.id})">×</button></td>
+        </tr>`).join('');
+    }
+
+    function calcular() {
+      const p = getP();
+
+      filas.forEach(f => {
+        const upc  = f.uporcaja >= 1 ? f.uporcaja : 1;
+        f.cajas    = f.unidades > 0 ? Math.ceil(f.unidades / upc) : 0;
+        f.unidReal = f.cajas * upc;
+        const m3R  = (f.largo/100)*(f.ancho/100)*(f.alto/100)*f.cajas;
+        f.m3       = (f.largo && f.ancho && f.alto && f.cajas) ? Math.ceil(m3R) : 0;
+        f.valTotal = f.exw * f.unidReal;
+      });
+
+      const m3Total  = filas.reduce((s,f) => s+f.m3, 0);
+      const tar      = m3Total > 0 ? getTarifa(m3Total, p) : 0;
+      const recargo  = (m3Total > 0 && m3Total < 5) ? p.rec : 0;
+      const fleteTot = m3Total * tar + recargo;
+
+      let sumCosto=0, sumGanancia=0, sumVenta=0, sumIva=0;
+      const resFilas = [];
+
+      filas.forEach(f => {
+        const dash = k => setEl(k+'-'+f.id,'—');
+        if (!f.cajas || !f.exw || !f.m3 || !f.unidReal) {
+          ['cajas','ureal','m3','flete','aran','ivac','tras','unit','tot','pventa','vtotal'].forEach(dash);
+          return;
+        }
+
+        const fleteU   = m3Total>0 ? (f.m3/m3Total)*fleteTot/f.unidReal : 0;
+        const aranU    = f.valTotal<1000 ? f.exw*0.06 : 0;
+        const ivaU     = (f.exw+fleteU)*p.tcEf*p.iva;
+        const trasU    = m3Total>0 ? (f.m3/m3Total)*p.tras/f.unidReal : 0;
+        const costUnit = (f.exw+fleteU+aranU)*p.tcEf + ivaU + trasU;
+        const totProd  = costUnit * f.unidReal;
+
+        const mrgPct   = Math.min(f.margen || 0, 99);
+        const pventa   = costUnit * (1 + mrgPct/100);
+        const ganUnit  = pventa - costUnit;
+        const ganTotal = ganUnit * f.unidReal;
+        const vtotal   = pventa * f.unidReal;
+
+        sumCosto    += totProd;
+        sumGanancia += ganTotal;
+        sumVenta    += vtotal;
+        sumIva      += ivaU * f.unidReal;
+
+        resFilas.push({ prod:f.prod||'(sin nombre)', cajas:f.cajas, unidReal:f.unidReal, costUnit, totProd, mrg:mrgPct, ganUnit, ganTotal, pventa, vtotal });
+
+        setEl('cajas-'+f.id,  f.cajas+' cajas');
+        setEl('ureal-'+f.id,  f.unidReal.toLocaleString('es-CL')+' u');
+        setEl('m3-'+f.id,     fmtM3(f.m3));
+        setEl('flete-'+f.id,  fmtUSD(fleteU));
+        setEl('aran-'+f.id,   fmtUSD(aranU));
+        setEl('ivac-'+f.id,   '$'+fmt(ivaU));
+        setEl('tras-'+f.id,   '$'+fmt(trasU));
+        setEl('unit-'+f.id,   '$'+fmt(costUnit));
+        setEl('tot-'+f.id,    '$'+fmt(totProd));
+        setEl('pventa-'+f.id, '$'+fmt(pventa));
+        setEl('vtotal-'+f.id, '$'+fmt(vtotal));
+      });
+
+      const alertaRecargo = m3Total>0 && m3Total<5;
+      document.getElementById('res-globales').innerHTML = `
+        <div class="res-item"><span class="res-label">TC efectivo</span><span class="res-val">$${fmt(p.tcEf)}/USD</span></div>
+        <div class="res-item"><span class="res-label">m³ totales cobrables</span><span class="res-val">${fmtM3(m3Total)}</span></div>
+        <div class="res-item"><span class="res-label">Tarifa WS aplicable</span><span class="res-val">USD ${tar}/m³</span></div>
+        <div class="res-item ${alertaRecargo?'alerta':''}">
+          <span class="res-label">Recargo &lt;5m³ ${alertaRecargo?'⚠ APLICA':'(no aplica)'}</span>
+          <span class="res-val">USD ${recargo.toFixed(2)}</span>
+        </div>
+        <div class="res-item info"><span class="res-label">Total WS Cargo a pagar</span><span class="res-val">USD ${fleteTot.toFixed(2)}</span></div>
+        <div class="res-item"><span class="res-label">Traslado Pto Montt</span><span class="res-val">$${fmt(p.tras)}</span></div>
+        <div class="res-item"><span class="res-label">IVA CIF total (ref. crédito fiscal)</span><span class="res-val">$${fmt(sumIva)}</span></div>
+        <div class="res-item danger"><span class="res-label">Total costo pedido (CLP)</span><span class="res-val">$${fmt(sumCosto)}</span></div>
+        <div class="res-item warning"><span class="res-label">Total ganancia estimada (CLP)</span><span class="res-val">$${fmt(sumGanancia)}</span></div>
+        <div class="res-item warning"><span class="res-label">Total venta estimada (CLP)</span><span class="res-val">$${fmt(sumVenta)}</span></div>
+      `;
+
+      document.getElementById('tbody-resumen').innerHTML = resFilas.map(r=>`
+        <tr>
+          <td>${r.prod}</td>
+          <td>${r.cajas} cajas</td>
+          <td>${r.unidReal.toLocaleString('es-CL')} u</td>
+          <td class="c-cost">$${fmt(r.costUnit)}</td>
+          <td class="c-tot">$${fmt(r.totProd)}</td>
+          <td class="c-mrg">${r.mrg.toFixed(1)}%</td>
+          <td class="c-mrg">$${fmt(r.ganUnit)}</td>
+          <td class="c-mrg">$${fmt(r.ganTotal)}</td>
+          <td class="c-pv">$${fmt(r.pventa)}</td>
+          <td class="c-pv">$${fmt(r.vtotal)}</td>
+        </tr>`).join('') + (resFilas.length>0 ? `
+        <tr class="totales">
+          <td>Totales</td>
+          <td class="c-sec">—</td><td class="c-sec">—</td><td class="c-sec">—</td>
+          <td class="c-tot">$${fmt(sumCosto)}</td>
+          <td class="c-sec">—</td><td class="c-sec">—</td>
+          <td class="c-mrg">$${fmt(sumGanancia)}</td>
+          <td class="c-sec">—</td>
+          <td class="c-pv">$${fmt(sumVenta)}</td>
+        </tr>` : '');
+    }
+
+    agregarFila();
+    agregarFila();
+  </script>
+</body>
+</html>
