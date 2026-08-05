@@ -9,47 +9,69 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="innovaservi.css" />
   <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
 </head>
 <body class="subpage innovaservi-page">
 
   <!-- NAV -->
-  <nav class="navbar">
+  <nav class="navbar" id="navbar">
     <div class="container nav-container">
       <a href="../index.html" class="logo">
         <img src="../assets/images/ISGROUP-pb2.png" alt="IS GROUP" class="logo-img" />
       </a>
-      <ul class="nav-links">
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
         <li><a href="../index.html" class="nav-link">Inicio</a></li>
         <li><a href="#empresa" class="nav-link">Empresa</a></li>
         <li><a href="#servicios" class="nav-link">Servicios</a></li>
         <li><a href="#equipo" class="nav-link">Equipo</a></li>
         <li><a href="#contacto" class="nav-link">Contacto</a></li>
+        <li><a href="#contacto" class="nav-link nav-cta">Cotizar</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="page-hero slide-section slide-center">
-    <div class="container page-hero-content">
-      <div class="page-hero-logo">
-        <img src="../assets/images/InnovaLOGO.png" alt="InnovaServi" />
-      </div>
-      <h1 class="page-hero-title">InnovaServi</h1>
-      <p class="page-hero-sub">Innovación y Servicios SpA</p>
-      <p class="page-hero-desc">
-        Soluciones integrales de limpieza industrial, sanitización,
-        servicios generales y obras menores en la Región de Los Lagos.
+  <!-- HERO con video -->
+  <header class="iv-hero" id="inicio">
+    <video class="iv-hero-video" autoplay muted loop playsinline
+           poster="../assets/images/InnovaServi/SeccionLImpieza/Aseo y sanitizacion industrial de plantas de procesos/sanitizacion-1.jpg">
+      <source src="../assets/videos/innovaservi-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="iv-hero-overlay"></div>
+    <div class="container iv-hero-content">
+      <span class="iv-hero-kicker">Innovación y Servicios SpA · Puerto Montt</span>
+      <h1 class="iv-hero-title">Soluciones integrales<br />para la <span class="hl">industria</span></h1>
+      <p class="iv-hero-desc">
+        Limpieza industrial, sanitización, servicios generales y obras menores
+        para plantas de proceso y acuicultura en la Región de Los Lagos.
       </p>
+      <div class="iv-hero-actions">
+        <a href="#servicios" class="iv-btn iv-btn-primary">Ver servicios</a>
+        <a href="#contacto" class="iv-btn iv-btn-ghost">Solicitar cotización</a>
+      </div>
     </div>
-    <div class="scroll-hint">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-      <span>Conoce nuestros servicios</span>
+    <div class="iv-cert-strip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Certificación Sernapesca DN-15 · Registro N° 891
+    </div>
+    <a href="#empresa" class="iv-scroll" aria-label="Bajar"><span></span></a>
+  </header>
+
+  <!-- ESTADÍSTICAS -->
+  <section class="iv-stats reveal">
+    <div class="container iv-stats-grid">
+      <div class="iv-stat"><span class="iv-stat-num" data-count="15">0</span><span class="iv-stat-plus">+</span><p>Años de experiencia</p></div>
+      <div class="iv-stat"><span class="iv-stat-num" data-count="3">0</span><p>Áreas de servicio</p></div>
+      <div class="iv-stat"><span class="iv-stat-num" data-count="100">0</span><span class="iv-stat-plus">+</span><p>Proyectos ejecutados</p></div>
+      <div class="iv-stat"><span class="iv-stat-num-text">DN-15</span><p>Certificación Sernapesca</p></div>
     </div>
   </section>
 
   <!-- EMPRESA -->
-  <section class="empresa-sec slide-section slide-top bg-slide-alt reveal" id="empresa">
+  <section class="iv-section iv-section-alt reveal" id="empresa">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Nosotros</span>
@@ -96,7 +118,7 @@
   </section>
 
   <!-- SERVICIOS -->
-  <section class="servicios slide-section slide-top bg-slide-dim reveal" id="servicios">
+  <section class="iv-section reveal" id="servicios">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Servicios</span>
@@ -241,7 +263,7 @@
   </section>
 
   <!-- CONTACTO -->
-  <section class="contacto slide-section slide-center bg-slide-alt reveal" id="contacto">
+  <section class="iv-section reveal" id="contacto">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Contacto</span>
@@ -285,7 +307,7 @@
             </a>
           </div>
         </div>
-        <form class="contacto-form">
+        <form class="contacto-form" id="contactForm">
           <input type="text" placeholder="Tu nombre" required />
           <input type="email" placeholder="Tu correo" required />
           <textarea rows="4" placeholder="Describe el servicio que necesitas..." required></textarea>
@@ -309,5 +331,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="innovaservi.js"></script>
 </body>
 </html>

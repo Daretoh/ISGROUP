@@ -1,0 +1,311 @@
+/* =========================================================
+   InnovaServi — Tema oceánico premium (estilo corporativo).
+   Scopeado a .innovaservi-page para NO afectar los otros
+   subsitios de IS GROUP que comparten ../css/style.css.
+   Se carga DESPUÉS de style.css, así que estas reglas ganan.
+   ========================================================= */
+
+.innovaservi-page {
+  --iv-navy:   #0a2540;
+  --iv-navy-2: #071a2f;
+  --iv-deep:   #04121f;
+  --iv-teal:   #17b3c4;
+  --iv-teal-2: #0e8ea0;
+  --iv-ink:    #12263a;
+  --iv-body:   #47596b;
+  --iv-muted:  #7a8a99;
+  --iv-line:   #e4ebf1;
+  --iv-alt:    #f4f8fb;
+  --iv-white:  #ffffff;
+  --iv-shadow: 0 18px 50px -20px rgba(10,37,64,.35);
+
+  background: var(--iv-white);
+  color: var(--iv-body);
+  overflow-x: hidden;
+}
+
+.innovaservi-page ::selection { background: var(--iv-teal); color:#fff; }
+
+/* ---------- NAVBAR: transparente sobre el hero, sólida al bajar ---------- */
+.innovaservi-page .navbar {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  padding: 18px 0;
+  z-index: 1000;
+  transition: background .35s ease, padding .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.innovaservi-page .navbar.scrolled {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 12px 0;
+  box-shadow: 0 8px 30px -18px rgba(10,37,64,.45);
+  border-bottom-color: var(--iv-line);
+}
+.innovaservi-page .nav-container { display:flex; align-items:center; justify-content:space-between; }
+.innovaservi-page .logo-img { height: 40px; width:auto; filter: brightness(0) invert(1); transition: filter .35s ease; }
+.innovaservi-page .navbar.scrolled .logo-img { filter: none; }
+.innovaservi-page .nav-links { display:flex; align-items:center; gap: 30px; }
+.innovaservi-page .nav-link {
+  color: rgba(255,255,255,.9);
+  font-weight: 600; font-size: .93rem; letter-spacing:.2px;
+  position: relative; transition: color .25s ease;
+}
+.innovaservi-page .nav-link::after {
+  content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0;
+  background: var(--iv-teal); transition: width .3s ease;
+}
+.innovaservi-page .nav-link:hover::after,
+.innovaservi-page .nav-link.active::after { width:100%; }
+.innovaservi-page .navbar.scrolled .nav-link { color: var(--iv-ink); }
+.innovaservi-page .nav-cta {
+  background: var(--iv-teal); color:#fff !important; padding: 9px 20px; border-radius: 999px;
+  transition: background .25s ease, transform .25s ease;
+}
+.innovaservi-page .nav-cta::after { display:none; }
+.innovaservi-page .nav-cta:hover { background: var(--iv-teal-2); transform: translateY(-2px); }
+.innovaservi-page .menu-toggle span { background:#fff; }
+.innovaservi-page .navbar.scrolled .menu-toggle span { background: var(--iv-ink); }
+
+/* ---------- HERO con video de fondo ---------- */
+.innovaservi-page .iv-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex; align-items: center;
+  overflow: hidden;
+  background: var(--iv-deep) center/cover no-repeat;
+  /* respaldo si el video aún no está */
+  background-image: linear-gradient(rgba(4,18,31,.35), rgba(4,18,31,.55)),
+                    url("../assets/images/InnovaServi/SeccionLImpieza/Aseo y sanitizacion industrial de plantas de procesos/sanitizacion-1.jpg");
+}
+.innovaservi-page .iv-hero-video {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit: cover; z-index:0;
+}
+.innovaservi-page .iv-hero-overlay {
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(180deg, rgba(4,18,31,.55) 0%, rgba(4,18,31,.35) 40%, rgba(4,18,31,.82) 100%),
+    radial-gradient(ellipse at 25% 30%, rgba(23,179,196,.18) 0%, transparent 55%);
+}
+.innovaservi-page .iv-hero-content { position:relative; z-index:2; max-width: 820px; padding-top: 90px; padding-bottom: 90px; }
+.innovaservi-page .iv-hero-kicker {
+  display:inline-flex; align-items:center; gap:8px;
+  color:#cfeef3; font-weight:600; font-size:.82rem; letter-spacing:2px; text-transform:uppercase;
+  padding:8px 16px; border:1px solid rgba(255,255,255,.25); border-radius:999px;
+  backdrop-filter: blur(4px); margin-bottom: 26px;
+  opacity:0; animation: ivUp .8s .1s ease forwards;
+}
+.innovaservi-page .iv-hero-title {
+  color:#fff; font-weight:900; line-height:1.05; letter-spacing:-1px;
+  font-size: clamp(2.4rem, 6vw, 4.4rem); margin-bottom: 22px;
+  opacity:0; animation: ivUp .8s .25s ease forwards;
+}
+.innovaservi-page .iv-hero-title .hl { color: var(--iv-teal); }
+.innovaservi-page .iv-hero-desc {
+  color: rgba(255,255,255,.9); font-size: clamp(1rem,1.6vw,1.2rem); line-height:1.7; max-width: 620px;
+  margin-bottom: 36px; opacity:0; animation: ivUp .8s .4s ease forwards;
+}
+.innovaservi-page .iv-hero-actions { display:flex; flex-wrap:wrap; gap:14px; opacity:0; animation: ivUp .8s .55s ease forwards; }
+
+.innovaservi-page .iv-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  padding: 15px 30px; border-radius: 999px; font-weight:700; font-size:.98rem;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+.innovaservi-page .iv-btn-primary { background: var(--iv-teal); color:#fff; box-shadow: 0 14px 34px -12px rgba(23,179,196,.7); }
+.innovaservi-page .iv-btn-primary:hover { background: var(--iv-teal-2); transform: translateY(-3px); }
+.innovaservi-page .iv-btn-ghost { background: rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.4); }
+.innovaservi-page .iv-btn-ghost:hover { background:#fff; color: var(--iv-navy); transform: translateY(-3px); }
+
+.innovaservi-page .iv-cert-strip {
+  position:absolute; z-index:2; bottom: 90px; left:50%; transform:translateX(-50%);
+  display:flex; align-items:center; gap:10px; white-space:nowrap;
+  color:#bfe6ec; font-size:.8rem; font-weight:600; letter-spacing:1px;
+  opacity:0; animation: ivFade 1s 1s ease forwards;
+}
+.innovaservi-page .iv-cert-strip svg { width:16px; height:16px; }
+
+.innovaservi-page .iv-scroll {
+  position:absolute; z-index:2; bottom: 26px; left:50%; transform:translateX(-50%);
+  width:26px; height:44px; border:2px solid rgba(255,255,255,.55); border-radius:14px;
+}
+.innovaservi-page .iv-scroll span {
+  position:absolute; top:8px; left:50%; width:4px; height:8px; margin-left:-2px; border-radius:2px;
+  background:#fff; animation: ivWheel 1.8s ease-in-out infinite;
+}
+
+/* ---------- BANDA DE ESTADÍSTICAS ---------- */
+.innovaservi-page .iv-stats { background: var(--iv-navy); padding: 46px 0; }
+.innovaservi-page .iv-stats-grid { display:grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+.innovaservi-page .iv-stat { text-align:center; color:#fff; position:relative; }
+.innovaservi-page .iv-stat + .iv-stat::before {
+  content:""; position:absolute; left:-12px; top:50%; transform:translateY(-50%);
+  width:1px; height:44px; background: rgba(255,255,255,.14);
+}
+.innovaservi-page .iv-stat-num, .innovaservi-page .iv-stat-num-text {
+  font-size: clamp(1.9rem,4vw,2.8rem); font-weight:900; color:#fff; line-height:1;
+}
+.innovaservi-page .iv-stat-plus { font-size:1.6rem; font-weight:900; color: var(--iv-teal); }
+.innovaservi-page .iv-stat p { margin-top:8px; font-size:.85rem; color: rgba(255,255,255,.7); letter-spacing:.3px; }
+
+/* ---------- SECCIONES (tema claro) ---------- */
+.innovaservi-page .iv-section { padding: 100px 0; background: var(--iv-white); }
+.innovaservi-page .iv-section-alt { background: var(--iv-alt); }
+.innovaservi-page .section-header { text-align:center; max-width: 680px; margin: 0 auto 56px; }
+.innovaservi-page .section-tag {
+  display:inline-block; color: var(--iv-teal-2); font-weight:700; font-size:.8rem;
+  letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;
+}
+.innovaservi-page .section-title { color: var(--iv-ink); font-size: clamp(1.9rem,4vw,2.7rem); font-weight:800; letter-spacing:-.5px; line-height:1.15; }
+.innovaservi-page .section-desc { color: var(--iv-body); font-size:1.05rem; margin-top:14px; }
+
+/* Empresa */
+.innovaservi-page .empresa-grid { display:grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items:start; }
+.innovaservi-page .empresa-texto h3 { color: var(--iv-ink); font-size:1.5rem; font-weight:800; margin-bottom:16px; }
+.innovaservi-page .empresa-texto p { color: var(--iv-body); margin-bottom:16px; line-height:1.8; }
+.innovaservi-page .cert-badge {
+  display:inline-flex; align-items:center; gap:10px; margin-top:8px;
+  background: rgba(23,179,196,.1); color: var(--iv-teal-2); font-weight:700; font-size:.9rem;
+  padding:12px 18px; border-radius:12px; border:1px solid rgba(23,179,196,.25);
+}
+.innovaservi-page .empresa-valores { display:grid; gap:16px; }
+.innovaservi-page .valor-card {
+  background:#fff; border:1px solid var(--iv-line); border-left:4px solid var(--iv-teal);
+  border-radius:14px; padding:22px 24px; transition: transform .3s ease, box-shadow .3s ease;
+}
+.innovaservi-page .valor-card:hover { transform: translateX(6px); box-shadow: var(--iv-shadow); }
+.innovaservi-page .valor-card h4 { color: var(--iv-ink); font-size:1.05rem; font-weight:800; margin-bottom:8px; }
+.innovaservi-page .valor-card p { color: var(--iv-body); font-size:.94rem; line-height:1.6; }
+
+/* Servicios — áreas */
+.innovaservi-page .serv-area-link { display:block; margin-bottom:28px; }
+.innovaservi-page .serv-area {
+  position:relative; display:grid; grid-template-columns: 42% 58%; align-items:stretch;
+  background:#fff; border:1px solid var(--iv-line); border-radius:20px; overflow:hidden;
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.innovaservi-page .serv-area:hover { transform: translateY(-6px); box-shadow: var(--iv-shadow); }
+.innovaservi-page .serv-area-link:nth-child(even) .serv-area { grid-template-columns: 58% 42%; }
+.innovaservi-page .serv-area-link:nth-child(even) .serv-area-img { order:2; }
+.innovaservi-page .serv-area-img { position:relative; min-height: 280px; overflow:hidden; }
+.innovaservi-page .serv-area-img img { width:100%; height:100%; object-fit:cover; transition: transform .6s ease; }
+.innovaservi-page .serv-area:hover .serv-area-img img { transform: scale(1.07); }
+.innovaservi-page .serv-area-overlay { position:absolute; inset:0; background: linear-gradient(120deg, rgba(10,37,64,.15), transparent 60%); }
+.innovaservi-page .serv-area-content { padding: 40px; display:flex; flex-direction:column; justify-content:center; }
+.innovaservi-page .serv-area-title { display:flex; align-items:center; gap:14px; color: var(--iv-ink); font-size:1.5rem; font-weight:800; margin-bottom:14px; }
+.innovaservi-page .serv-area-num { color: var(--iv-teal); font-size:1rem; font-weight:900; letter-spacing:1px; background: rgba(23,179,196,.1); padding:6px 10px; border-radius:8px; }
+.innovaservi-page .serv-area-desc { color: var(--iv-body); line-height:1.7; margin-bottom:20px; }
+.innovaservi-page .serv-area-cta { color: var(--iv-teal-2); font-weight:700; transition: gap .25s ease, color .25s; }
+.innovaservi-page .serv-area:hover .serv-area-cta { color: var(--iv-teal); }
+
+/* Equipo */
+.innovaservi-page .equipo-sec { padding: 100px 0; background: var(--iv-alt); }
+.innovaservi-page .equipo-collapse-summary { cursor:pointer; list-style:none; }
+.innovaservi-page .equipo-collapse-summary::-webkit-details-marker { display:none; }
+.innovaservi-page .equipo-destacado {
+  display:grid; grid-template-columns: 200px 1fr; gap:28px; align-items:center;
+  background:#fff; border:1px solid var(--iv-line); border-radius:18px; padding:26px; margin-bottom:20px;
+}
+.innovaservi-page .equipo-destacado-img img { width:100%; aspect-ratio:1; object-fit:cover; border-radius:14px; }
+.innovaservi-page .equipo-destacado-info h3 { color: var(--iv-ink); font-size:1.35rem; font-weight:800; }
+.innovaservi-page .equipo-cargo { display:inline-block; color: var(--iv-teal-2); font-weight:700; font-size:.85rem; text-transform:uppercase; letter-spacing:1px; margin:6px 0 12px; }
+.innovaservi-page .equipo-destacado-info p { color: var(--iv-body); line-height:1.7; margin-bottom:14px; }
+.innovaservi-page .equipo-links { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.innovaservi-page .equipo-link { color: var(--iv-teal-2); font-weight:600; font-size:.9rem; }
+.innovaservi-page .equipo-link.linkedin { color:#0a66c2; }
+.innovaservi-page .equipo-accordion { display:grid; gap:12px; }
+.innovaservi-page .equipo-item { background:#fff; border:1px solid var(--iv-line); border-radius:14px; overflow:hidden; }
+.innovaservi-page .equipo-summary { cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:18px 22px; }
+.innovaservi-page .equipo-summary::-webkit-details-marker { display:none; }
+.innovaservi-page .equipo-summary-nombre { color: var(--iv-ink); font-weight:700; }
+.innovaservi-page .equipo-summary-cargo { color: var(--iv-muted); font-size:.88rem; }
+.innovaservi-page .equipo-detail { padding: 0 22px 20px; color: var(--iv-body); }
+.innovaservi-page .equipo-detail p { line-height:1.7; margin-bottom:10px; }
+
+/* Contacto */
+.innovaservi-page .contacto-grid { display:grid; grid-template-columns: 1fr 1fr; gap:44px; }
+.innovaservi-page .contacto-item { display:flex; align-items:center; gap:14px; color: var(--iv-body); margin-bottom:18px; font-weight:500; }
+.innovaservi-page .contacto-item svg { color: var(--iv-teal); flex-shrink:0; }
+.innovaservi-page .contacto-social { display:flex; gap:12px; margin:22px 0; }
+.innovaservi-page .social-link {
+  width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  border-radius:12px; background:#fff; border:1px solid var(--iv-line); color: var(--iv-navy);
+  transition: transform .25s ease, background .25s, color .25s;
+}
+.innovaservi-page .social-link:hover { background: var(--iv-teal); color:#fff; transform: translateY(-3px); }
+.innovaservi-page .contacto-mapa { border-radius:16px; overflow:hidden; border:1px solid var(--iv-line); }
+.innovaservi-page .contacto-mapa iframe { width:100%; height:200px; border:0; display:block; }
+.innovaservi-page .contacto-mapa-link { display:flex; align-items:center; gap:8px; padding:12px 16px; background:#fff; color: var(--iv-teal-2); font-weight:700; font-size:.9rem; }
+.innovaservi-page .contacto-form { display:flex; flex-direction:column; gap:14px; background:#fff; padding:32px; border-radius:18px; border:1px solid var(--iv-line); box-shadow: var(--iv-shadow); }
+.innovaservi-page .contacto-form input,
+.innovaservi-page .contacto-form textarea {
+  width:100%; padding:14px 16px; border:1px solid var(--iv-line); border-radius:12px;
+  font-family: inherit; font-size:.95rem; color: var(--iv-ink); background: var(--iv-alt);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.innovaservi-page .contacto-form input:focus,
+.innovaservi-page .contacto-form textarea:focus { outline:none; border-color: var(--iv-teal); box-shadow: 0 0 0 3px rgba(23,179,196,.15); background:#fff; }
+.innovaservi-page .contacto-form .btn-primary { background: var(--iv-teal); color:#fff; border:none; padding:15px; border-radius:12px; font-weight:700; cursor:pointer; transition: background .25s, transform .25s; }
+.innovaservi-page .contacto-form .btn-primary:hover { background: var(--iv-teal-2); transform: translateY(-2px); }
+
+/* Footer */
+.innovaservi-page .footer { background: var(--iv-navy-2); padding: 46px 0; }
+.innovaservi-page .footer-content { display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; }
+.innovaservi-page .footer .logo-img { filter: brightness(0) invert(1); height:36px; }
+.innovaservi-page .footer-link { color: var(--iv-teal); font-weight:600; }
+.innovaservi-page .footer-copy { color: rgba(255,255,255,.55); font-size:.85rem; }
+
+/* ---------- Reveal enriquecido + stagger ---------- */
+.innovaservi-page .reveal { opacity:0; transform: translateY(40px); transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1); }
+.innovaservi-page .reveal.visible { opacity:1; transform:none; }
+.innovaservi-page .reveal.visible .valor-card,
+.innovaservi-page .reveal.visible .serv-area-link,
+.innovaservi-page .reveal.visible .iv-stat { animation: ivUp .6s ease backwards; }
+.innovaservi-page .reveal.visible .valor-card:nth-child(2) { animation-delay:.1s; }
+.innovaservi-page .reveal.visible .valor-card:nth-child(3) { animation-delay:.2s; }
+.innovaservi-page .reveal.visible .serv-area-link:nth-child(2) { animation-delay:.12s; }
+.innovaservi-page .reveal.visible .serv-area-link:nth-child(3) { animation-delay:.24s; }
+.innovaservi-page .reveal.visible .iv-stat:nth-child(2){animation-delay:.1s}
+.innovaservi-page .reveal.visible .iv-stat:nth-child(3){animation-delay:.2s}
+.innovaservi-page .reveal.visible .iv-stat:nth-child(4){animation-delay:.3s}
+
+@keyframes ivUp { from{opacity:0; transform:translateY(28px);} to{opacity:1; transform:none;} }
+@keyframes ivFade { from{opacity:0;} to{opacity:1;} }
+@keyframes ivWheel { 0%{opacity:1; top:8px;} 60%{opacity:.2; top:22px;} 100%{opacity:0; top:22px;} }
+
+@media (prefers-reduced-motion: reduce) {
+  .innovaservi-page * , .innovaservi-page *::before, .innovaservi-page *::after { animation: none !important; transition: none !important; }
+  .innovaservi-page .reveal { opacity:1; transform:none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .innovaservi-page .empresa-grid,
+  .innovaservi-page .contacto-grid { grid-template-columns: 1fr; gap:32px; }
+  .innovaservi-page .serv-area,
+  .innovaservi-page .serv-area-link:nth-child(even) .serv-area { grid-template-columns: 1fr; }
+  .innovaservi-page .serv-area-link:nth-child(even) .serv-area-img { order:0; }
+  .innovaservi-page .serv-area-img { min-height: 210px; }
+  .innovaservi-page .iv-stats-grid { grid-template-columns: repeat(2,1fr); gap:30px 16px; }
+  .innovaservi-page .iv-stat:nth-child(3)::before,
+  .innovaservi-page .iv-stat:nth-child(odd)::before { display:none; }
+  .innovaservi-page .equipo-destacado { grid-template-columns: 1fr; text-align:center; }
+  .innovaservi-page .equipo-destacado-img img { max-width:180px; margin:0 auto; }
+  .innovaservi-page .equipo-links { justify-content:center; }
+  .innovaservi-page .nav-links {
+    position: fixed; top:0; right:-100%; width:74%; max-width:320px; height:100vh;
+    background: var(--iv-navy); flex-direction:column; align-items:flex-start; justify-content:center;
+    gap:22px; padding:40px; transition: right .35s ease;
+  }
+  .innovaservi-page .nav-links.open { right:0; }
+  .innovaservi-page .nav-link { color:#fff !important; font-size:1.1rem; }
+  .innovaservi-page .nav-cta { color:#fff !important; }
+}
+@media (max-width: 520px) {
+  .innovaservi-page .iv-section { padding: 70px 0; }
+  .innovaservi-page .serv-area-content { padding: 28px; }
+  .innovaservi-page .iv-cert-strip { font-size:.7rem; white-space:normal; text-align:center; width:90%; }
+}
