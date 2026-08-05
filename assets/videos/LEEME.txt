@@ -1,0 +1,11 @@
+Aquí va el video del hero de InnovaServi.
+
+Nombre exacto del archivo:  innovaservi-hero.mp4
+
+Specs recomendadas:
+- 1920x1080 (Full HD), horizontal 16:9
+- MP4 (códec H.264), sin audio
+- 15-30 segundos, loop fluido
+- Ideal bajo ~10 MB (comprimido)
+
+Mientras no exista el video, el hero muestra una imagen de respaldo automáticamente.
