@@ -6,18 +6,20 @@
    ========================================================= */
 
 .innovaservi-page {
-  --iv-navy:   #0a2540;
-  --iv-navy-2: #071a2f;
-  --iv-deep:   #04121f;
-  --iv-teal:   #17b3c4;
-  --iv-teal-2: #0e8ea0;
-  --iv-ink:    #12263a;
-  --iv-body:   #47596b;
-  --iv-muted:  #7a8a99;
-  --iv-line:   #e4ebf1;
-  --iv-alt:    #f4f8fb;
+  /* Marca InnovaServi: azul royal (SERVI) + naranja (monograma IS) */
+  --iv-navy:   #1a1f6e;   /* azul profundo — secciones oscuras, footer, stats */
+  --iv-navy-2: #12163f;
+  --iv-deep:   #0c0f2e;
+  --iv-teal:   #ff6b00;   /* acento naranja (CTA, hover, detalles) */
+  --iv-teal-2: #c24e00;   /* naranja legible sobre fondo claro (tags, links) */
+  --iv-blue:   #1f28b0;   /* azul vivo de "SERVI" */
+  --iv-ink:    #1b1f4d;   /* títulos: azul muy oscuro (menos negro) */
+  --iv-body:   #4a5270;
+  --iv-muted:  #7c85a0;
+  --iv-line:   #e6e8f2;
+  --iv-alt:    #f5f6fb;
   --iv-white:  #ffffff;
-  --iv-shadow: 0 18px 50px -20px rgba(10,37,64,.35);
+  --iv-shadow: 0 18px 50px -20px rgba(26,31,110,.35);
 
   background: var(--iv-white);
   color: var(--iv-body);
@@ -77,7 +79,7 @@
   overflow: hidden;
   background: var(--iv-deep) center/cover no-repeat;
   /* respaldo si el video aún no está */
-  background-image: linear-gradient(rgba(4,18,31,.35), rgba(4,18,31,.55)),
+  background-image: linear-gradient(rgba(12,15,46,.35), rgba(12,15,46,.55)),
                     url("../assets/images/InnovaServi/SeccionLImpieza/Aseo y sanitizacion industrial de plantas de procesos/sanitizacion-1.jpg");
 }
 .innovaservi-page .iv-hero-video {
@@ -87,13 +89,13 @@
 .innovaservi-page .iv-hero-overlay {
   position:absolute; inset:0; z-index:1;
   background:
-    linear-gradient(180deg, rgba(4,18,31,.55) 0%, rgba(4,18,31,.35) 40%, rgba(4,18,31,.82) 100%),
-    radial-gradient(ellipse at 25% 30%, rgba(23,179,196,.18) 0%, transparent 55%);
+    linear-gradient(180deg, rgba(12,15,46,.55) 0%, rgba(12,15,46,.35) 40%, rgba(12,15,46,.82) 100%),
+    radial-gradient(ellipse at 25% 30%, rgba(255,107,0,.18) 0%, transparent 55%);
 }
 .innovaservi-page .iv-hero-content { position:relative; z-index:2; max-width: 820px; padding-top: 90px; padding-bottom: 90px; }
 .innovaservi-page .iv-hero-kicker {
   display:inline-flex; align-items:center; gap:8px;
-  color:#cfeef3; font-weight:600; font-size:.82rem; letter-spacing:2px; text-transform:uppercase;
+  color:#dfe3ff; font-weight:600; font-size:.82rem; letter-spacing:2px; text-transform:uppercase;
   padding:8px 16px; border:1px solid rgba(255,255,255,.25); border-radius:999px;
   backdrop-filter: blur(4px); margin-bottom: 26px;
   opacity:0; animation: ivUp .8s .1s ease forwards;
@@ -115,7 +117,7 @@
   padding: 15px 30px; border-radius: 999px; font-weight:700; font-size:.98rem;
   transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
 }
-.innovaservi-page .iv-btn-primary { background: var(--iv-teal); color:#fff; box-shadow: 0 14px 34px -12px rgba(23,179,196,.7); }
+.innovaservi-page .iv-btn-primary { background: var(--iv-teal); color:#fff; box-shadow: 0 14px 34px -12px rgba(255,107,0,.7); }
 .innovaservi-page .iv-btn-primary:hover { background: var(--iv-teal-2); transform: translateY(-3px); }
 .innovaservi-page .iv-btn-ghost { background: rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.4); }
 .innovaservi-page .iv-btn-ghost:hover { background:#fff; color: var(--iv-navy); transform: translateY(-3px); }
@@ -123,7 +125,7 @@
 .innovaservi-page .iv-cert-strip {
   position:absolute; z-index:2; bottom: 90px; left:50%; transform:translateX(-50%);
   display:flex; align-items:center; gap:10px; white-space:nowrap;
-  color:#bfe6ec; font-size:.8rem; font-weight:600; letter-spacing:1px;
+  color:#cdd3ff; font-size:.8rem; font-weight:600; letter-spacing:1px;
   opacity:0; animation: ivFade 1s 1s ease forwards;
 }
 .innovaservi-page .iv-cert-strip svg { width:16px; height:16px; }
@@ -168,8 +170,8 @@
 .innovaservi-page .empresa-texto p { color: var(--iv-body); margin-bottom:16px; line-height:1.8; }
 .innovaservi-page .cert-badge {
   display:inline-flex; align-items:center; gap:10px; margin-top:8px;
-  background: rgba(23,179,196,.1); color: var(--iv-teal-2); font-weight:700; font-size:.9rem;
-  padding:12px 18px; border-radius:12px; border:1px solid rgba(23,179,196,.25);
+  background: rgba(255,107,0,.1); color: var(--iv-teal-2); font-weight:700; font-size:.9rem;
+  padding:12px 18px; border-radius:12px; border:1px solid rgba(255,107,0,.25);
 }
 .innovaservi-page .empresa-valores { display:grid; gap:16px; }
 .innovaservi-page .valor-card {
@@ -196,7 +198,7 @@
 .innovaservi-page .serv-area-overlay { position:absolute; inset:0; background: linear-gradient(120deg, rgba(10,37,64,.15), transparent 60%); }
 .innovaservi-page .serv-area-content { padding: 40px; display:flex; flex-direction:column; justify-content:center; }
 .innovaservi-page .serv-area-title { display:flex; align-items:center; gap:14px; color: var(--iv-ink); font-size:1.5rem; font-weight:800; margin-bottom:14px; }
-.innovaservi-page .serv-area-num { color: var(--iv-teal); font-size:1rem; font-weight:900; letter-spacing:1px; background: rgba(23,179,196,.1); padding:6px 10px; border-radius:8px; }
+.innovaservi-page .serv-area-num { color: var(--iv-teal); font-size:1rem; font-weight:900; letter-spacing:1px; background: rgba(255,107,0,.1); padding:6px 10px; border-radius:8px; }
 .innovaservi-page .serv-area-desc { color: var(--iv-body); line-height:1.7; margin-bottom:20px; }
 .innovaservi-page .serv-area-cta { color: var(--iv-teal-2); font-weight:700; transition: gap .25s ease, color .25s; }
 .innovaservi-page .serv-area:hover .serv-area-cta { color: var(--iv-teal); }
@@ -247,7 +249,7 @@
   transition: border-color .25s ease, box-shadow .25s ease;
 }
 .innovaservi-page .contacto-form input:focus,
-.innovaservi-page .contacto-form textarea:focus { outline:none; border-color: var(--iv-teal); box-shadow: 0 0 0 3px rgba(23,179,196,.15); background:#fff; }
+.innovaservi-page .contacto-form textarea:focus { outline:none; border-color: var(--iv-teal); box-shadow: 0 0 0 3px rgba(255,107,0,.15); background:#fff; }
 .innovaservi-page .contacto-form .btn-primary { background: var(--iv-teal); color:#fff; border:none; padding:15px; border-radius:12px; font-weight:700; cursor:pointer; transition: background .25s, transform .25s; }
 .innovaservi-page .contacto-form .btn-primary:hover { background: var(--iv-teal-2); transform: translateY(-2px); }
 
