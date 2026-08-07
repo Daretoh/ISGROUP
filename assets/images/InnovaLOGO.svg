@@ -48,7 +48,7 @@
       }
 
       .st11 {
-        fill: #fefefe;
+        fill: none;
       }
     </style>
     <linearGradient id="Degradado_sin_nombre_2" data-name="Degradado sin nombre 2" x1="119.48" y1="2.98" x2="118.47" y2="157.71" gradientTransform="translate(0 .02)" gradientUnits="userSpaceOnUse">
