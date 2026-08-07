@@ -181,12 +181,18 @@
 @keyframes ivMarquee { from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
 
 /* ---------- NOSOTROS: banda con color de marca + patrón ---------- */
-.innovaservi-page .iv-about { position:relative; overflow:hidden; padding: 84px 0; text-align:center;
+.innovaservi-page .iv-about { position:relative; overflow:hidden; padding: 84px 0 150px; text-align:center;
   background: linear-gradient(135deg, var(--iv-navy) 0%, #232a86 55%, var(--iv-blue) 130%); }
-.innovaservi-page .iv-about-pattern { position:absolute; inset:0; opacity:.5;
+.innovaservi-page .iv-about-pattern { position:absolute; inset:0; z-index:0; opacity:.5;
   background-image: radial-gradient(rgba(255,255,255,.06) 1.4px, transparent 1.4px);
   background-size: 26px 26px; }
-.innovaservi-page .iv-about::after { content:""; position:absolute; top:-30%; right:-8%; width:520px; height:520px; border-radius:50%;
+/* Logo de marca (colores reales) como marca de agua, con blur y baja opacidad */
+.innovaservi-page .iv-about-logo { position:absolute; z-index:0; left:50%; top:44%; transform:translate(-50%,-50%);
+  width:min(560px,82vw); opacity:.10; filter: blur(1px); pointer-events:none; }
+/* Fundido inferior: el fondo se oscurece hacia abajo para entrar sin corte a las imágenes */
+.innovaservi-page .iv-about::before { content:""; position:absolute; left:0; right:0; bottom:0; height:230px; z-index:0;
+  background: linear-gradient(180deg, transparent 0%, rgba(12,15,46,.55) 55%, var(--iv-deep) 100%); }
+.innovaservi-page .iv-about::after { content:""; position:absolute; top:-30%; right:-8%; width:520px; height:520px; border-radius:50%; z-index:0;
   background: radial-gradient(circle, rgba(255,107,0,.18) 0%, transparent 62%); }
 .innovaservi-page .iv-about-inner { position:relative; z-index:1; max-width: 820px; }
 .innovaservi-page .section-tag.light { color: var(--iv-teal); }
@@ -198,16 +204,16 @@
 .innovaservi-page .cert-badge.light { background: rgba(255,107,0,.16); border-color: rgba(255,107,0,.4); color:#ffd7b0; }
 
 /* ---------- MISIÓN / VISIÓN: dos columnas (una sola sección) con parallax ---------- */
-.innovaservi-page .iv-mv { display:flex; position:relative; min-height: 92vh; }
-.innovaservi-page .iv-mv-col { position:relative; flex:1 1 0; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; }
+.innovaservi-page .iv-mv { display:flex; position:relative; min-height: 92vh; background: var(--iv-deep); }
+.innovaservi-page .iv-mv-col { position:relative; flex:1 1 0; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; background: var(--iv-deep); }
 .innovaservi-page .iv-mv-col + .iv-mv-col { border-left: 1px solid rgba(255,255,255,.12); }
 .innovaservi-page .iv-mv-img { position:absolute; top:-12%; left:0; width:100%; height:124%; z-index:0;
   background-size:cover; background-position:center; will-change: transform; transform: scale(1.08); }
 /* Degradado: oscuro arriba (entra desde la banda de valores) + oscuro abajo (para el texto) */
 .innovaservi-page .iv-mv-shade { position:absolute; inset:0; z-index:1;
   background: linear-gradient(180deg,
-    var(--iv-navy) 0%, var(--iv-navy) 9%, rgba(26,31,110,.72) 20%, rgba(18,22,70,.18) 40%,
-    rgba(10,14,40,.5) 72%, rgba(8,11,32,.92) 100%); }
+    var(--iv-deep) 0%, var(--iv-deep) 13%, rgba(12,15,46,.55) 30%, rgba(12,15,46,.12) 47%,
+    rgba(8,11,32,.5) 74%, rgba(8,11,32,.95) 100%); }
 .innovaservi-page .iv-mv-content { position:relative; z-index:2; text-align:center; max-width: 520px;
   padding: 0 clamp(24px,4vw,52px) clamp(56px,11vh,130px); }
 .innovaservi-page .iv-mv-text { color:#fff; font-size: clamp(1.15rem, 1.9vw, 1.7rem); font-weight:700; line-height:1.45; margin-top:12px;
