@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       <!-- INFO -->
       <div class="detalle-info">
         <div class="detalle-breadcrumb">
-          <a href="index.html">ISperformance</a>
+          <a href="./">ISperformance</a>
           <span>›</span>
           <span>${producto.categoria}</span>
         </div>
