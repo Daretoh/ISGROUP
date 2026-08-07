@@ -88,6 +88,19 @@
   .pl-modal-body .row{display:flex;gap:10px;align-items:center;margin-bottom:12px;color:var(--body);font-size:.92rem;}
   .pl-modal-body .row b{color:var(--ink);}
   .pl-modal-body .cat-chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.78rem;font-weight:700;color:#fff;}
+  .pl-desc{background:var(--alt);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.88rem;line-height:1.6;color:var(--body);white-space:pre-line;margin-top:6px;}
+
+  /* Vista Próximos (agenda) */
+  .cal-grid.agenda{display:block;padding:12px;}
+  .ag-day{border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:12px;background:#fff;}
+  .ag-day h4{color:var(--ink);font-size:.98rem;margin-bottom:10px;text-transform:capitalize;font-weight:800;}
+  .ag-ev{display:flex;gap:12px;align-items:stretch;padding:10px 0;border-top:1px dashed var(--line);}
+  .ag-ev:first-of-type{border-top:none;padding-top:0;}
+  .ag-ev .bar{width:4px;border-radius:3px;flex-shrink:0;}
+  .ag-ev .info{flex:1;min-width:0;}
+  .ag-ev .info .tt{color:var(--ink);font-weight:700;font-size:.95rem;}
+  .ag-meta{font-size:.8rem;color:var(--muted);font-weight:600;margin-top:2px;}
+  .ag-desc{font-size:.85rem;color:var(--body);margin-top:5px;white-space:pre-line;line-height:1.55;}
 
   .pl-foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:22px;}
   .pl-foot a{color:var(--orange-2);font-weight:600;}
@@ -123,7 +136,7 @@
       </div>
       <div class="pl-actions">
         <button class="pl-today" id="today">Hoy</button>
-        <div class="pl-seg"><button data-v="mes" class="on">Mes</button><button data-v="semana">Semana</button></div>
+        <div class="pl-seg"><button data-v="mes" class="on">Mes</button><button data-v="semana">Semana</button><button data-v="proximos">Próximos</button></div>
         <button class="pl-add" id="add">＋ Nuevo trabajo</button>
       </div>
     </div>
@@ -154,30 +167,30 @@
 <script>
 (function(){
   var CATS={ limp:{n:'Limpieza / Sanitización',c:'#17a2b8'}, obra:{n:'Obras menores',c:'#ff6b00'}, gen:{n:'Servicios generales',c:'#22a06b'}, mant:{n:'Mantención',c:'#7b61ff'}, otro:{n:'Otro',c:'#8b93a7'} };
-  // Datos de EJEMPLO (estructura lista para importar los reales luego): {fecha:'YYYY-MM-DD', titulo, cat, cliente, nota}
+  // Datos de EJEMPLO (estructura lista para importar los reales luego): {fecha:'YYYY-MM-DD', titulo, cat, ubic, desc}
   var EVENTS=[
-    {fecha:'2026-08-04',titulo:'Despeje y desmalezado Komatsu',cat:'gen',cliente:'Komatsu'},
-    {fecha:'2026-08-05',titulo:'Despeje y desmalezado Komatsu',cat:'gen',cliente:'Komatsu'},
-    {fecha:'2026-08-06',titulo:'Despeje y desmalezado Komatsu',cat:'gen',cliente:'Komatsu'},
-    {fecha:'2026-08-07',titulo:'Limpieza estanque Osorno',cat:'limp',cliente:'Planta Osorno'},
-    {fecha:'2026-08-07',titulo:'Materiales sala lactancia',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-07',titulo:'Sala lactancia',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-08',titulo:'Sala lactancia',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-10',titulo:'Retiro malezas y entrega Rexin',cat:'gen',cliente:'Rexin'},
-    {fecha:'2026-08-10',titulo:'Instalar cortinas y bicicletero',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-11',titulo:'Losa hormigón G29',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-12',titulo:'Losa hormigón G29',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-13',titulo:'Losa hormigón G29',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-14',titulo:'Visita Quemchi',cat:'gen',cliente:'Quemchi'},
-    {fecha:'2026-08-14',titulo:'Cambio puertas lactancia',cat:'obra',cliente:'—'},
-    {fecha:'2026-08-17',titulo:'Estanque salmuera Planta C',cat:'limp',cliente:'Planta C'},
-    {fecha:'2026-08-21',titulo:'Limpieza ductos de casino',cat:'limp',cliente:'Casino'},
-    {fecha:'2026-08-28',titulo:'Limpieza estanque Hornopirén',cat:'limp',cliente:'Hornopirén'},
-    {fecha:'2026-09-01',titulo:'Limpieza captación de agua',cat:'limp',cliente:'—'},
-    {fecha:'2026-09-01',titulo:'Limpieza estanques agua dulce',cat:'limp',cliente:'—'},
-    {fecha:'2026-09-07',titulo:'Limpieza fachada exterior RILES',cat:'limp',cliente:'Planta RILES'},
-    {fecha:'2026-09-15',titulo:'Limpieza fachada interior RILES',cat:'limp',cliente:'Planta RILES'},
-    {fecha:'2026-09-29',titulo:'Limpieza entretecho',cat:'limp',cliente:'—'}
+    {fecha:'2026-08-04',titulo:'Despeje y desmalezado Komatsu',cat:'gen',ubic:'KOMATSU'},
+    {fecha:'2026-08-05',titulo:'Despeje y desmalezado Komatsu',cat:'gen',ubic:'KOMATSU'},
+    {fecha:'2026-08-06',titulo:'Despeje y desmalezado Komatsu',cat:'gen',ubic:'KOMATSU'},
+    {fecha:'2026-08-07',titulo:'Materiales sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- 10 Planchas PVC Mármol\n- 14 wall panel de 290x22 cm\n- 20 Adhesivo estructural\n- Terminaciones wall panel\n- 6 Luces de cielo\n- 2 Puertas de 100 cm con vidrios\n- 8 tablas cepilladas de 1x4\n- Pintura blanca y beige\n- Chapa digital · Chapa principal baño'},
+    {fecha:'2026-08-07',titulo:'Sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- Obra gruesa'},
+    {fecha:'2026-08-07',titulo:'Limpieza estanque Osorno',cat:'limp',ubic:'SAL LOBOS',desc:'Las quemas, Fundo el Pajonal, Lote A'},
+    {fecha:'2026-08-08',titulo:'Sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- Obra gruesa'},
+    {fecha:'2026-08-09',titulo:'Sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- Obra gruesa'},
+    {fecha:'2026-08-10',titulo:'Retiro malezas y entrega Rexin',cat:'gen',ubic:'KOMATSU'},
+    {fecha:'2026-08-10',titulo:'Instalar cortinas y bicicletero',cat:'obra',ubic:'CUMMINS'},
+    {fecha:'2026-08-11',titulo:'Losa hormigón G29',cat:'obra',ubic:'GREENSPOT'},
+    {fecha:'2026-08-12',titulo:'Losa hormigón G29',cat:'obra',ubic:'GREENSPOT'},
+    {fecha:'2026-08-13',titulo:'Losa hormigón G29',cat:'obra',ubic:'GREENSPOT'},
+    {fecha:'2026-08-14',titulo:'Visita Quemchi',cat:'gen',ubic:'Quemchi'},
+    {fecha:'2026-08-14',titulo:'Cambio puertas lactancia',cat:'obra',ubic:'CERMAQ'},
+    {fecha:'2026-08-17',titulo:'Estanque salmuera Planta C',cat:'limp',ubic:'Planta C'},
+    {fecha:'2026-08-21',titulo:'Limpieza ductos de casino',cat:'limp',ubic:'Casino'},
+    {fecha:'2026-08-28',titulo:'Limpieza estanque Hornopirén',cat:'limp',ubic:'Hornopirén'},
+    {fecha:'2026-09-01',titulo:'Limpieza captación de agua',cat:'limp'},
+    {fecha:'2026-09-07',titulo:'Limpieza fachada exterior RILES',cat:'limp',ubic:'Planta RILES'},
+    {fecha:'2026-09-15',titulo:'Limpieza fachada interior RILES',cat:'limp',ubic:'Planta RILES'},
+    {fecha:'2026-09-29',titulo:'Limpieza entretecho',cat:'limp'}
   ];
 
   var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
@@ -188,9 +201,12 @@
   function evsDe(f){ return EVENTS.filter(function(e){return e.fecha===f;}); }
 
   function render(){
-    var grid=document.getElementById('grid'); var y=ref.getFullYear(), m=ref.getMonth();
-    document.getElementById('title').textContent=MES[m]+' '+y;
+    var grid=document.getElementById('grid'); grid.classList.remove('agenda');
     var cal=document.getElementById('cal'); cal.classList.toggle('week',vista==='semana');
+    document.querySelector('.cal-dow').style.display=(vista==='proximos')?'none':'';
+    if(vista==='proximos'){ renderProximos(); return; }
+    var y=ref.getFullYear(), m=ref.getMonth();
+    document.getElementById('title').textContent=MES[m]+' '+y;
     var cells=[];
     if(vista==='mes'){
       var first=new Date(y,m,1); var startDow=(first.getDay()+6)%7; var dim=new Date(y,m+1,0).getDate(); var prevDim=new Date(y,m,0).getDate();
@@ -213,6 +229,25 @@
     grid.querySelectorAll('.ev').forEach(function(b){ b.addEventListener('click',function(){ abrir(b.dataset.f,b.dataset.t); }); });
     grid.querySelectorAll('.ev-more').forEach(function(b){ b.addEventListener('click',function(){ abrirDia(b.dataset.f); }); });
   }
+  var DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  function renderProximos(){
+    var grid=document.getElementById('grid'); grid.classList.add('agenda');
+    document.getElementById('title').textContent='Próximos eventos';
+    var start=todayISO();
+    var up=EVENTS.filter(function(e){return e.fecha>=start;}).sort(function(a,b){return a.fecha<b.fecha?-1:(a.fecha>b.fecha?1:0);});
+    if(!up.length){ grid.innerHTML='<div style="padding:34px;text-align:center;color:var(--muted)">No hay eventos próximos.</div>'; return; }
+    var byDay={}; up.forEach(function(e){ (byDay[e.fecha]=byDay[e.fecha]||[]).push(e); });
+    grid.innerHTML=Object.keys(byDay).sort().map(function(f){ var d=new Date(f+'T00:00:00');
+      return '<div class="ag-day"><h4>'+DIAS[d.getDay()]+' '+d.getDate()+' de '+MES[d.getMonth()]+' '+d.getFullYear()+'</h4>'+
+        byDay[f].map(function(e){ var cat=CATS[e.cat]||CATS.otro;
+          return '<div class="ag-ev"><div class="bar" style="background:'+cat.c+'"></div><div class="info">'+
+            '<div class="tt">'+esc(e.titulo)+'</div>'+
+            '<div class="ag-meta">'+(e.ubic?('📍 '+esc(e.ubic)+' · '):'')+cat.n+'</div>'+
+            (e.desc?'<div class="ag-desc">'+esc(e.desc)+'</div>':'')+
+          '</div></div>';
+        }).join('')+'</div>';
+    }).join('');
+  }
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function enc(s){ return (s||'').replace(/"/g,'&quot;'); }
 
@@ -225,15 +260,15 @@
     document.getElementById('modal-body').innerHTML=
       '<div class="row">📅 <b>'+d.getDate()+' de '+MES[d.getMonth()]+' '+d.getFullYear()+'</b></div>'+
       '<div class="row">🏷️ <span class="cat-chip" style="background:'+cat.c+'">'+cat.n+'</span></div>'+
-      (e.cliente&&e.cliente!=='—'?'<div class="row">🏢 Cliente: <b>'+esc(e.cliente)+'</b></div>':'')+
-      (e.nota?'<div class="row">📝 '+esc(e.nota)+'</div>':'');
+      (e.ubic?'<div class="row">📍 Ubicación: <b>'+esc(e.ubic)+'</b></div>':'')+
+      (e.desc?'<div class="pl-desc">'+esc(e.desc)+'</div>':'');
     modal.classList.add('show');
   }
   function abrirDia(f){
     var evs=evsDe(f); if(!evs.length)return; var d=new Date(f+'T00:00:00');
     document.getElementById('modal-head').style.background='linear-gradient(135deg,var(--navy),#0c0f2e)';
     document.getElementById('modal-title').textContent=d.getDate()+' de '+MES[d.getMonth()];
-    document.getElementById('modal-body').innerHTML=evs.map(function(e){ var cat=CATS[e.cat]||CATS.otro; return '<div class="row"><span class="cat-chip" style="background:'+cat.c+'">&nbsp;</span> '+esc(e.titulo)+(e.cliente&&e.cliente!=='—'?(' · '+esc(e.cliente)):'')+'</div>'; }).join('');
+    document.getElementById('modal-body').innerHTML=evs.map(function(e){ var cat=CATS[e.cat]||CATS.otro; return '<div class="row"><span class="cat-chip" style="background:'+cat.c+'">&nbsp;</span> '+esc(e.titulo)+(e.ubic?(' · '+esc(e.ubic)):'')+'</div>'; }).join('');
     modal.classList.add('show');
   }
   document.getElementById('modal-close').addEventListener('click',function(){ modal.classList.remove('show'); });
