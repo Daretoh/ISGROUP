@@ -96,7 +96,7 @@
 /* Hero minimalista estilo Australis: solo el logo grande centrado */
 .innovaservi-page .iv-hero-content { position:relative; z-index:2; padding: 80px 24px; }
 .innovaservi-page .iv-hero-logo {
-  width: clamp(210px, 34vw, 360px); height:auto; margin:0 auto;
+  width: clamp(210px, 34vw, 360px); max-width: 86vw; height:auto; margin:0 auto;
   filter: brightness(0) invert(1) drop-shadow(0 10px 30px rgba(0,0,0,.5));
   opacity:0; transform: scale(.94); animation: ivHeroLogo 1.2s .15s cubic-bezier(.2,.7,.2,1) forwards;
 }
