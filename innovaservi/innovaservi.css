@@ -163,10 +163,18 @@
 .innovaservi-page .iv-marquee-track { display:flex; align-items:center; width:max-content; gap: 70px; animation: ivMarquee 40s linear infinite; }
 .innovaservi-page .iv-marquee:hover .iv-marquee-track { animation-play-state: paused; }
 .innovaservi-page .iv-marquee-track img {
-  height: 42px; width:auto; max-width:170px; object-fit:contain; flex:0 0 auto;
+  height: 46px; width:auto; max-width: 210px; object-fit:contain; flex:0 0 auto;
   filter: grayscale(1); opacity:.55; transition: filter .3s ease, opacity .3s ease;
 }
 .innovaservi-page .iv-marquee-track img:hover { filter: grayscale(0); opacity:1; }
+/* Empareja el tamaño óptico: agranda los logos con mucho relleno interno, acota los muy anchos */
+.innovaservi-page .iv-marquee-track img[src*="SKRETTING"] { transform: scale(1.65); }
+.innovaservi-page .iv-marquee-track img[src*="MOWI"]      { transform: scale(1.45); }
+.innovaservi-page .iv-marquee-track img[src*="LOBOS"]     { transform: scale(1.25); }
+.innovaservi-page .iv-marquee-track img[src*="VERISURE"]  { transform: scale(1.12); }
+.innovaservi-page .iv-marquee-track img[src*="KOMATSU"]     { max-width: 200px; }
+.innovaservi-page .iv-marquee-track img[src*="CERMAQ"]      { max-width: 175px; }
+.innovaservi-page .iv-marquee-track img[src*="VAYASDELSUR"] { max-width: 175px; }
 @keyframes ivMarquee { from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
 
 /* ---------- NOSOTROS: banda con color de marca + patrón ---------- */
