@@ -194,17 +194,21 @@
   font-size:.86rem; font-weight:600; padding:9px 16px; border-radius:999px; }
 .innovaservi-page .cert-badge.light { background: rgba(255,107,0,.16); border-color: rgba(255,107,0,.4); color:#ffd7b0; }
 
-/* ---------- MISIÓN / VISIÓN: imágenes con parallax ---------- */
-.innovaservi-page .iv-parallax { position:relative; overflow:hidden; min-height: 70vh; display:flex; align-items:center; }
-.innovaservi-page .iv-parallax-img { position:absolute; top:-12%; left:0; width:100%; height:124%; z-index:0;
-  background-size:cover; background-position:center; will-change: transform; transform: scale(1.05); }
-.innovaservi-page .iv-parallax-shade { position:absolute; inset:0; z-index:1;
-  background: linear-gradient(90deg, rgba(10,15,52,.86) 0%, rgba(10,15,52,.55) 45%, rgba(10,15,52,.15) 100%); }
-.innovaservi-page .iv-parallax-right .iv-parallax-shade { background: linear-gradient(270deg, rgba(10,15,52,.86) 0%, rgba(10,15,52,.55) 45%, rgba(10,15,52,.15) 100%); }
-.innovaservi-page .iv-parallax-content { position:relative; z-index:2; max-width: 560px; }
-.innovaservi-page .iv-parallax-right .iv-parallax-content { margin-left:auto; text-align:right; }
-.innovaservi-page .iv-parallax-text { color:#fff; font-size: clamp(1.3rem, 2.6vw, 2rem); font-weight:700; line-height:1.4; letter-spacing:-.3px; margin-top:10px;
-  text-shadow: 0 2px 20px rgba(0,0,0,.4); }
+/* ---------- MISIÓN / VISIÓN: dos columnas (una sola sección) con parallax ---------- */
+.innovaservi-page .iv-mv { display:flex; position:relative; min-height: 92vh; }
+.innovaservi-page .iv-mv-col { position:relative; flex:1 1 0; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; }
+.innovaservi-page .iv-mv-col + .iv-mv-col { border-left: 1px solid rgba(255,255,255,.12); }
+.innovaservi-page .iv-mv-img { position:absolute; top:-12%; left:0; width:100%; height:124%; z-index:0;
+  background-size:cover; background-position:center; will-change: transform; transform: scale(1.08); }
+/* Degradado: oscuro arriba (entra desde la banda de valores) + oscuro abajo (para el texto) */
+.innovaservi-page .iv-mv-shade { position:absolute; inset:0; z-index:1;
+  background: linear-gradient(180deg,
+    var(--iv-navy) 0%, rgba(20,25,90,.45) 22%, rgba(16,20,55,.05) 42%,
+    rgba(10,14,40,.5) 72%, rgba(8,11,32,.92) 100%); }
+.innovaservi-page .iv-mv-content { position:relative; z-index:2; text-align:center; max-width: 520px;
+  padding: 0 clamp(24px,4vw,52px) clamp(56px,11vh,130px); }
+.innovaservi-page .iv-mv-text { color:#fff; font-size: clamp(1.15rem, 1.9vw, 1.7rem); font-weight:700; line-height:1.45; margin-top:12px;
+  text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 
 /* ---------- SECCIONES (tema claro) ---------- */
 .innovaservi-page .iv-section { padding: 100px 0; background: var(--iv-white); }
@@ -362,10 +366,9 @@
   .innovaservi-page .nav-links.open { right:0; }
   .innovaservi-page .nav-link { color:#fff !important; font-size:1.1rem; }
   .innovaservi-page .nav-cta { color:#fff !important; }
-  .innovaservi-page .iv-parallax { min-height: 60vh; }
-  .innovaservi-page .iv-parallax-right .iv-parallax-content { text-align:left; margin-left:0; }
-  .innovaservi-page .iv-parallax-shade,
-  .innovaservi-page .iv-parallax-right .iv-parallax-shade { background: linear-gradient(180deg, rgba(10,15,52,.5) 0%, rgba(10,15,52,.8) 100%); }
+  .innovaservi-page .iv-mv { flex-direction: column; min-height: 0; }
+  .innovaservi-page .iv-mv-col { min-height: 56vh; }
+  .innovaservi-page .iv-mv-col + .iv-mv-col { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); }
   .innovaservi-page .iv-marquee-track { gap: 48px; animation-duration: 28s; }
   .innovaservi-page .iv-marquee-track img { height: 34px; }
 }
