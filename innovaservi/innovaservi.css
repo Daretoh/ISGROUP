@@ -33,18 +33,21 @@
   position: fixed;
   top: 0; left: 0; width: 100%;
   background: transparent;
-  border-bottom: 1px solid transparent;
-  padding: 18px 0;
+  border-bottom: 2px solid transparent;
+  padding: 14px 0;
   z-index: 1000;
-  transition: background .35s ease, padding .35s ease, box-shadow .35s ease, border-color .35s ease;
+  /* En el hero la barra está oculta (solo video + logo + mensaje); aparece al bajar */
+  opacity: 0; transform: translateY(-100%); pointer-events: none;
+  transition: opacity .35s ease, transform .4s ease, background .35s ease, padding .35s ease, box-shadow .35s ease, border-color .35s ease;
 }
 .innovaservi-page .navbar.scrolled {
-  background: rgba(255,255,255,.92);
+  opacity: 1; transform: none; pointer-events: auto;
+  background: rgba(255,255,255,.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 12px 0;
   box-shadow: 0 8px 30px -18px rgba(10,37,64,.45);
-  border-bottom-color: var(--iv-line);
+  border-bottom: 2px solid var(--iv-teal); /* barrita naranja de contraste */
 }
 .innovaservi-page .nav-container { display:flex; align-items:center; justify-content:space-between; }
 /* Logo de la barra: oculto sobre el hero (el logo grande está ahí), aparece al bajar */
@@ -203,7 +206,7 @@
 /* Degradado: oscuro arriba (entra desde la banda de valores) + oscuro abajo (para el texto) */
 .innovaservi-page .iv-mv-shade { position:absolute; inset:0; z-index:1;
   background: linear-gradient(180deg,
-    var(--iv-navy) 0%, rgba(20,25,90,.45) 22%, rgba(16,20,55,.05) 42%,
+    var(--iv-navy) 0%, var(--iv-navy) 9%, rgba(26,31,110,.72) 20%, rgba(18,22,70,.18) 40%,
     rgba(10,14,40,.5) 72%, rgba(8,11,32,.92) 100%); }
 .innovaservi-page .iv-mv-content { position:relative; z-index:2; text-align:center; max-width: 520px;
   padding: 0 clamp(24px,4vw,52px) clamp(56px,11vh,130px); }
