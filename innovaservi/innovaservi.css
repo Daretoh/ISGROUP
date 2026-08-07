@@ -207,8 +207,8 @@
 .innovaservi-page .iv-mv { display:flex; position:relative; min-height: 92vh; background: var(--iv-deep); }
 .innovaservi-page .iv-mv-col { position:relative; flex:1 1 0; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; background: var(--iv-deep); }
 .innovaservi-page .iv-mv-col + .iv-mv-col { border-left: 1px solid rgba(255,255,255,.12); }
-.innovaservi-page .iv-mv-img { position:absolute; top:-12%; left:0; width:100%; height:124%; z-index:0;
-  background-size:cover; background-position:center; will-change: transform; transform: scale(1.08); }
+.innovaservi-page .iv-mv-img { position:absolute; inset:0; z-index:0;
+  background-size:cover; background-position:center; background-attachment: fixed; }
 /* Degradado: oscuro arriba (entra desde la banda de valores) + oscuro abajo (para el texto) */
 .innovaservi-page .iv-mv-shade { position:absolute; inset:0; z-index:1;
   background: linear-gradient(180deg,
@@ -378,6 +378,7 @@
   .innovaservi-page .iv-mv { flex-direction: column; min-height: 0; }
   .innovaservi-page .iv-mv-col { min-height: 56vh; }
   .innovaservi-page .iv-mv-col + .iv-mv-col { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); }
+  .innovaservi-page .iv-mv-img { background-attachment: scroll; } /* iOS no soporta fixed */
   .innovaservi-page .iv-marquee-track { gap: 48px; animation-duration: 28s; }
   .innovaservi-page .iv-marquee-track img { height: 34px; }
 }
