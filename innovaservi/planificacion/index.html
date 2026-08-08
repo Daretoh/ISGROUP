@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
     --navy:#1a1f6e; --navy-2:#12163f; --deep:#0c0f2e; --orange:#ff6b00; --orange-2:#c24e00;
@@ -167,31 +168,27 @@
 <script>
 (function(){
   var CATS={ limp:{n:'Limpieza / Sanitización',c:'#17a2b8'}, obra:{n:'Obras menores',c:'#ff6b00'}, gen:{n:'Servicios generales',c:'#22a06b'}, mant:{n:'Mantención',c:'#7b61ff'}, otro:{n:'Otro',c:'#8b93a7'} };
-  // Datos de EJEMPLO (estructura lista para importar los reales luego): {fecha:'YYYY-MM-DD', titulo, cat, ubic, desc}
-  var EVENTS=[
-    {fecha:'2026-08-04',titulo:'Despeje y desmalezado Komatsu',cat:'gen',ubic:'KOMATSU'},
-    {fecha:'2026-08-05',titulo:'Despeje y desmalezado Komatsu',cat:'gen',ubic:'KOMATSU'},
-    {fecha:'2026-08-06',titulo:'Despeje y desmalezado Komatsu',cat:'gen',ubic:'KOMATSU'},
-    {fecha:'2026-08-07',titulo:'Materiales sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- 10 Planchas PVC Mármol\n- 14 wall panel de 290x22 cm\n- 20 Adhesivo estructural\n- Terminaciones wall panel\n- 6 Luces de cielo\n- 2 Puertas de 100 cm con vidrios\n- 8 tablas cepilladas de 1x4\n- Pintura blanca y beige\n- Chapa digital · Chapa principal baño'},
-    {fecha:'2026-08-07',titulo:'Sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- Obra gruesa'},
-    {fecha:'2026-08-07',titulo:'Limpieza estanque Osorno',cat:'limp',ubic:'SAL LOBOS',desc:'Las quemas, Fundo el Pajonal, Lote A'},
-    {fecha:'2026-08-08',titulo:'Sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- Obra gruesa'},
-    {fecha:'2026-08-09',titulo:'Sala lactancia',cat:'obra',ubic:'CERMAQ',desc:'- Obra gruesa'},
-    {fecha:'2026-08-10',titulo:'Retiro malezas y entrega Rexin',cat:'gen',ubic:'KOMATSU'},
-    {fecha:'2026-08-10',titulo:'Instalar cortinas y bicicletero',cat:'obra',ubic:'CUMMINS'},
-    {fecha:'2026-08-11',titulo:'Losa hormigón G29',cat:'obra',ubic:'GREENSPOT'},
-    {fecha:'2026-08-12',titulo:'Losa hormigón G29',cat:'obra',ubic:'GREENSPOT'},
-    {fecha:'2026-08-13',titulo:'Losa hormigón G29',cat:'obra',ubic:'GREENSPOT'},
-    {fecha:'2026-08-14',titulo:'Visita Quemchi',cat:'gen',ubic:'Quemchi'},
-    {fecha:'2026-08-14',titulo:'Cambio puertas lactancia',cat:'obra',ubic:'CERMAQ'},
-    {fecha:'2026-08-17',titulo:'Estanque salmuera Planta C',cat:'limp',ubic:'Planta C'},
-    {fecha:'2026-08-21',titulo:'Limpieza ductos de casino',cat:'limp',ubic:'Casino'},
-    {fecha:'2026-08-28',titulo:'Limpieza estanque Hornopirén',cat:'limp',ubic:'Hornopirén'},
-    {fecha:'2026-09-01',titulo:'Limpieza captación de agua',cat:'limp'},
-    {fecha:'2026-09-07',titulo:'Limpieza fachada exterior RILES',cat:'limp',ubic:'Planta RILES'},
-    {fecha:'2026-09-15',titulo:'Limpieza fachada interior RILES',cat:'limp',ubic:'Planta RILES'},
-    {fecha:'2026-09-29',titulo:'Limpieza entretecho',cat:'limp'}
-  ];
+  // ---- Datos reales desde Supabase (tabla eventos) ----
+  var SB_URL='https://oabtbzrfgwadnooexdwd.supabase.co';
+  var SB_KEY='sb_publishable_Uz01bxGvGArhB-h4KOvbqA_WtQg1zer';
+  var sb=null; try{ if(window.supabase) sb=window.supabase.createClient(SB_URL,SB_KEY); }catch(e){}
+  var EVENTS=[];
+  // Color por tipo de trabajo (a partir del título, ya que la categoría suele ser "Trabajo")
+  function catColor(t){ t=(t||'').toUpperCase();
+    if(/LIMPIEZA|LIMPIAR|SANITIZ|LAVAD|DESINFEC|ESTANQUE|C[ÁA]MARA|RILES|DUCTO|SILO|NIEVE|CAPTACION|ENTRETECHO|FACHADA/.test(t)) return 'limp';
+    if(/LOSA|HORMIGON|OBRA|INSTAL|PUERTA|CORTINA|RADIER|ESTRUCTURA|M[ÁA]STIL|CONSTRU|PARED|TECHO|EMPAVONAR|OFICINA|SALA|BICICLETERO|MALLA/.test(t)) return 'obra';
+    if(/DESMALEZ|MALEZA|PODA|C[ÉE]SPED|JARDIN|DESPEJE|SE[ÑN]AL[ÉE]TICA|DEMARCAC|MAQUINARIA|[ÁA]RIDO|FOSA|RETIRO|CORTE|VISITA|TRASLADO|MOVIMIENTO/.test(t)) return 'gen';
+    if(/REPARAC|MANTEN|CAMBIO|REVISION/.test(t)) return 'mant';
+    return 'otro';
+  }
+  function cargarEventos(cb){
+    if(!sb){ if(cb)cb(); return; }
+    sb.from('eventos').select('*').order('fecha',{ascending:true}).then(function(r){
+      if(r.error){ console.warn('Supabase:',r.error.message); }
+      EVENTS=((r&&r.data)||[]).map(function(e){ return { fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', cat:catColor(e.titulo), desc:e.descripcion||'' }; });
+      if(cb)cb();
+    }, function(err){ console.warn('Supabase err',err); if(cb)cb(); });
+  }
 
   var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var ref=new Date(2026,7,1); // agosto 2026 (mes con datos de ejemplo)
@@ -281,6 +278,7 @@
   document.getElementById('add').addEventListener('click',function(){ alert('En la versión final aquí se agrega un trabajo nuevo (título, fecha, categoría, cliente). Por ahora es solo el formato.'); });
 
   render();
+  cargarEventos(render);
 })();
 </script>
 </body>
