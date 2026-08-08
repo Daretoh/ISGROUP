@@ -183,11 +183,16 @@
   }
   function cargarEventos(cb){
     if(!sb){ if(cb)cb(); return; }
-    sb.from('eventos').select('*').order('fecha',{ascending:true}).then(function(r){
-      if(r.error){ console.warn('Supabase:',r.error.message); }
-      EVENTS=((r&&r.data)||[]).map(function(e){ return { fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', cat:catColor(e.titulo), desc:e.descripcion||'' }; });
-      if(cb)cb();
-    }, function(err){ console.warn('Supabase err',err); if(cb)cb(); });
+    var all=[], chunk=1000;
+    function finish(){ EVENTS=all.map(function(e){ return { fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', cat:catColor(e.titulo), desc:e.descripcion||'' }; }); if(cb)cb(); }
+    function fetchFrom(off){
+      sb.from('eventos').select('*').order('fecha',{ascending:true}).range(off, off+chunk-1).then(function(r){
+        if(r.error){ console.warn('Supabase:',r.error.message); finish(); return; }
+        var d=(r&&r.data)||[]; all=all.concat(d);
+        if(d.length===chunk){ fetchFrom(off+chunk); } else { finish(); }
+      }, function(err){ console.warn('Supabase err',err); finish(); });
+    }
+    fetchFrom(0);
   }
 
   var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
