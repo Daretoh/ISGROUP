@@ -21,13 +21,13 @@
   a{color:inherit;text-decoration:none;}
 
   /* Header */
-  .pl-header{background:linear-gradient(135deg,var(--navy) 0%,#232a86 60%,var(--blue) 130%);color:#fff;padding:20px 24px;position:relative;overflow:hidden;}
-  .pl-header::after{content:"";position:absolute;top:-40%;right:-5%;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,.22) 0%,transparent 62%);}
+  .pl-header{background:linear-gradient(135deg,#e05e00 0%,#ff6b00 55%,#ff8a2b 130%);color:#fff;padding:20px 24px;position:relative;overflow:hidden;}
+  .pl-header::after{content:"";position:absolute;top:-40%;right:-5%;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,transparent 62%);}
   .pl-header-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1;flex-wrap:wrap;}
   .pl-brand{display:flex;align-items:center;gap:12px;}
   .pl-brand img{height:42px;width:auto;filter:brightness(0) invert(1);}
   .pl-brand .t{font-weight:800;font-size:1.15rem;letter-spacing:.3px;}
-  .pl-brand .s{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#cfd3ff;font-weight:600;}
+  .pl-brand .s{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);font-weight:600;}
   .pl-user{display:flex;align-items:center;gap:10px;font-size:.85rem;color:#dfe3ff;}
   .pl-user .av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-weight:700;}
 
@@ -41,7 +41,7 @@
   .pl-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .pl-seg{display:flex;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
   .pl-seg button{border:none;background:transparent;padding:9px 16px;font:700 13px var(--font);color:var(--body);cursor:pointer;}
-  .pl-seg button.on{background:var(--navy);color:#fff;}
+  .pl-seg button.on{background:var(--orange);color:#fff;}
   .pl-today{border:1px solid var(--line);background:#fff;padding:9px 16px;border-radius:10px;font:700 13px var(--font);color:var(--ink);cursor:pointer;}
   .pl-today:hover{border-color:var(--orange);color:var(--orange);}
   .pl-add{background:var(--orange);color:#fff;border:none;padding:10px 18px;border-radius:10px;font:700 13px var(--font);cursor:pointer;box-shadow:0 10px 24px -10px rgba(255,107,0,.6);}
@@ -54,7 +54,7 @@
 
   /* Grid calendario */
   .cal{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px -30px rgba(26,31,110,.35);}
-  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);background:var(--navy);color:#fff;}
+  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);background:var(--orange);color:#fff;}
   .cal-dow div{padding:12px 10px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;text-align:center;}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
   .cell{min-height:128px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px;position:relative;transition:background .2s;overflow:hidden;}
@@ -106,6 +106,20 @@
   .pl-foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:22px;}
   .pl-foot a{color:var(--orange-2);font-weight:600;}
 
+  /* Login / formulario / edición */
+  .pl-auth{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);color:#fff;padding:8px 16px;border-radius:999px;font:700 13px var(--font);cursor:pointer;}
+  .pl-auth:hover{background:#fff;color:var(--orange-2);}
+  #auth-label{color:rgba(255,255,255,.92);font-size:.82rem;margin-right:6px;}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+  .fgrid label{display:flex;flex-direction:column;gap:5px;font:600 12px var(--font);color:var(--ink);}
+  .fgrid label.full{grid-column:1/-1;}
+  .fgrid input,.fgrid textarea{font:500 14px var(--font);padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--alt);color:var(--ink);width:100%;box-sizing:border-box;}
+  .fgrid input:focus,.fgrid textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,0,.15);background:#fff;}
+  .fgrid textarea{resize:vertical;}
+  .fbtns{display:flex;justify-content:flex-end;gap:10px;align-items:center;}
+  .pl-del-btn{background:#fff;border:1px solid #f0c0c0;color:#dc2626;padding:10px 18px;border-radius:10px;font:700 13px var(--font);cursor:pointer;}
+  .pl-del-btn:hover{background:#dc2626;color:#fff;border-color:#dc2626;}
+
   @media (max-width:760px){
     .pl-title{font-size:1.2rem;min-width:150px;}
     .cell{min-height:92px;padding:5px;}
@@ -124,7 +138,7 @@
         <img src="../../assets/images/InnovaLOGO.svg" alt="InnovaServi" onerror="this.style.display='none'"/>
         <div><div class="t">Planificación</div><div class="s">Innova Servi</div></div>
       </div>
-      <div class="pl-user"><span>Panel operativo</span><div class="av">IS</div></div>
+      <div class="pl-user"><span id="auth-label"></span><button id="authbtn" class="pl-auth">Iniciar sesión</button></div>
     </div>
   </header>
 
@@ -165,6 +179,38 @@
     </div>
   </div>
 
+  <!-- Modal login -->
+  <div class="pl-modal" id="login-modal">
+    <div class="pl-modal-box" style="max-width:380px">
+      <div class="pl-modal-head" style="background:linear-gradient(135deg,#1a1f6e,#0c0f2e)"><h3>Ingresar</h3><button id="login-close" aria-label="Cerrar">×</button></div>
+      <div class="pl-modal-body">
+        <div class="fgrid">
+          <label class="full">Correo<input type="email" id="l-email" autocomplete="username"></label>
+          <label class="full">Contraseña<input type="password" id="l-pass" autocomplete="current-password"></label>
+        </div>
+        <button id="l-btn" class="pl-add" style="width:100%;margin-top:6px">Entrar</button>
+        <div id="l-msg" style="color:#dc2626;font-size:.85rem;margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal nuevo/editar trabajo -->
+  <div class="pl-modal" id="form-modal">
+    <div class="pl-modal-box">
+      <div class="pl-modal-head" style="background:linear-gradient(135deg,#ff6b00,#c24e00)"><h3 id="form-title">Nuevo trabajo</h3><button id="form-close" aria-label="Cerrar">×</button></div>
+      <div class="pl-modal-body">
+        <div class="fgrid">
+          <label>Fecha<input type="date" id="f-fecha"></label>
+          <label>Hora<input type="text" id="f-hora" placeholder="09:00 - 13:00 o All day"></label>
+          <label class="full">Título<input type="text" id="f-titulo" placeholder="Ej: Limpieza estanque"></label>
+          <label class="full">Ubicación / Cliente<input type="text" id="f-ubic" placeholder="Ej: CERMAQ"></label>
+          <label class="full">Descripción<textarea id="f-desc" rows="4" placeholder="Detalle, materiales, tareas…"></textarea></label>
+        </div>
+        <div class="fbtns"><button class="pl-del-btn" id="f-del" style="display:none">Eliminar</button><button class="pl-add" id="f-save">Guardar</button></div>
+      </div>
+    </div>
+  </div>
+
 <script>
 (function(){
   var CATS={ limp:{n:'Limpieza / Sanitización',c:'#17a2b8'}, obra:{n:'Obras menores',c:'#ff6b00'}, gen:{n:'Servicios generales',c:'#22a06b'}, mant:{n:'Mantención',c:'#7b61ff'}, otro:{n:'Otro',c:'#8b93a7'} };
@@ -172,6 +218,7 @@
   var SB_URL='https://oabtbzrfgwadnooexdwd.supabase.co';
   var SB_KEY='sb_publishable_Uz01bxGvGArhB-h4KOvbqA_WtQg1zer';
   var sb=null; try{ if(window.supabase) sb=window.supabase.createClient(SB_URL,SB_KEY); }catch(e){}
+  var authed=false, userEmail='';
   var EVENTS=[];
   // Color por tipo de trabajo (a partir del título, ya que la categoría suele ser "Trabajo")
   function catColor(t){ t=(t||'').toUpperCase();
@@ -184,7 +231,7 @@
   function cargarEventos(cb){
     if(!sb){ if(cb)cb(); return; }
     var all=[], chunk=1000;
-    function finish(){ EVENTS=all.map(function(e){ return { fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', cat:catColor(e.titulo), desc:e.descripcion||'' }; }); if(cb)cb(); }
+    function finish(){ EVENTS=all.map(function(e){ return { id:e.id, fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', cat:catColor(e.titulo), desc:e.descripcion||'' }; }); if(cb)cb(); }
     function fetchFrom(off){
       sb.from('eventos').select('*').order('fecha',{ascending:true}).range(off, off+chunk-1).then(function(r){
         if(r.error){ console.warn('Supabase:',r.error.message); finish(); return; }
@@ -224,11 +271,11 @@
     var tISO=todayISO();
     grid.innerHTML=cells.map(function(c){
       var f=iso(c.d); var evs=evsDe(f); var max=(vista==='semana')?30:3;
-      var evHtml=evs.slice(0,max).map(function(e){ return '<button class="ev '+e.cat+'" data-f="'+f+'" data-t="'+enc(e.titulo)+'">'+esc(e.titulo)+'</button>'; }).join('');
+      var evHtml=evs.slice(0,max).map(function(e){ return '<button class="ev '+e.cat+'" data-id="'+e.id+'">'+esc(e.titulo)+'</button>'; }).join('');
       if(evs.length>max) evHtml+='<div class="ev-more" data-f="'+f+'">+'+(evs.length-max)+' más</div>';
       return '<div class="cell'+(c.out?' out':'')+(f===tISO?' today':'')+'"><span class="dnum">'+c.d.getDate()+'</span>'+evHtml+'</div>';
     }).join('');
-    grid.querySelectorAll('.ev').forEach(function(b){ b.addEventListener('click',function(){ abrir(b.dataset.f,b.dataset.t); }); });
+    grid.querySelectorAll('.ev').forEach(function(b){ b.addEventListener('click',function(){ abrir(b.dataset.id); }); });
     grid.querySelectorAll('.ev-more').forEach(function(b){ b.addEventListener('click',function(){ abrirDia(b.dataset.f); }); });
   }
   var DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
@@ -254,17 +301,22 @@
   function enc(s){ return (s||'').replace(/"/g,'&quot;'); }
 
   var modal=document.getElementById('modal');
-  function abrir(f,t){
-    var e=EVENTS.filter(function(x){return x.fecha===f && x.titulo===t;})[0]; if(!e){ e=evsDe(f)[0]; } if(!e)return;
-    var cat=CATS[e.cat]||CATS.otro; var d=new Date(f+'T00:00:00');
+  function abrir(id){
+    var e=EVENTS.filter(function(x){return String(x.id)===String(id);})[0]; if(!e)return;
+    var cat=CATS[e.cat]||CATS.otro; var d=new Date(e.fecha+'T00:00:00');
     document.getElementById('modal-head').style.background='linear-gradient(135deg,'+cat.c+',#0c0f2e)';
     document.getElementById('modal-title').textContent=e.titulo;
     document.getElementById('modal-body').innerHTML=
-      '<div class="row">📅 <b>'+d.getDate()+' de '+MES[d.getMonth()]+' '+d.getFullYear()+'</b></div>'+
+      '<div class="row">📅 <b>'+d.getDate()+' de '+MES[d.getMonth()]+' '+d.getFullYear()+'</b>'+(e.hora?' · '+esc(e.hora):'')+'</div>'+
       '<div class="row">🏷️ <span class="cat-chip" style="background:'+cat.c+'">'+cat.n+'</span></div>'+
       (e.ubic?'<div class="row">📍 Ubicación: <b>'+esc(e.ubic)+'</b></div>':'')+
-      (e.desc?'<div class="pl-desc">'+esc(e.desc)+'</div>':'');
+      (e.desc?'<div class="pl-desc">'+esc(e.desc)+'</div>':'')+
+      (authed?'<div class="fbtns" style="margin-top:14px"><button class="pl-del-btn" id="det-del">Eliminar</button><button class="pl-add" id="det-edit">✎ Editar</button></div>':'');
     modal.classList.add('show');
+    if(authed){
+      var de=document.getElementById('det-edit'); if(de) de.addEventListener('click',function(){ modal.classList.remove('show'); abrirForm(e); });
+      var dd=document.getElementById('det-del'); if(dd) dd.addEventListener('click',function(){ if(confirm('¿Eliminar «'+e.titulo+'»?')) eliminarEvento(e.id); });
+    }
   }
   function abrirDia(f){
     var evs=evsDe(f); if(!evs.length)return; var d=new Date(f+'T00:00:00');
@@ -280,7 +332,64 @@
   document.getElementById('next').addEventListener('click',function(){ if(vista==='mes') ref.setMonth(ref.getMonth()+1); else ref.setDate(ref.getDate()+7); render(); });
   document.getElementById('today').addEventListener('click',function(){ ref=new Date(); render(); });
   document.querySelectorAll('.pl-seg button').forEach(function(b){ b.addEventListener('click',function(){ vista=b.dataset.v; document.querySelectorAll('.pl-seg button').forEach(function(x){x.classList.toggle('on',x===b);}); render(); }); });
-  document.getElementById('add').addEventListener('click',function(){ alert('En la versión final aquí se agrega un trabajo nuevo (título, fecha, categoría, cliente). Por ahora es solo el formato.'); });
+  // ---- Sesión (Supabase Auth) ----
+  var loginModal=document.getElementById('login-modal'), formModal=document.getElementById('form-modal');
+  function updateAuthUI(){
+    document.getElementById('auth-label').textContent = authed ? userEmail : '';
+    document.getElementById('authbtn').textContent = authed ? 'Salir' : 'Iniciar sesión';
+  }
+  function setAuth(session){ authed=!!session; userEmail=(session&&session.user&&session.user.email)||''; updateAuthUI(); }
+  if(sb && sb.auth){
+    sb.auth.getSession().then(function(r){ setAuth(r&&r.data&&r.data.session); });
+    sb.auth.onAuthStateChange(function(_e,session){ setAuth(session); });
+  }
+  document.getElementById('authbtn').addEventListener('click',function(){
+    if(authed){ if(sb) sb.auth.signOut(); authed=false; userEmail=''; updateAuthUI(); }
+    else { document.getElementById('l-msg').textContent=''; loginModal.classList.add('show'); document.getElementById('l-email').focus(); }
+  });
+  document.getElementById('login-close').addEventListener('click',function(){ loginModal.classList.remove('show'); });
+  loginModal.addEventListener('click',function(ev){ if(ev.target===loginModal) loginModal.classList.remove('show'); });
+  document.getElementById('l-btn').addEventListener('click',function(){
+    if(!sb){ return; }
+    var em=document.getElementById('l-email').value.trim(), pw=document.getElementById('l-pass').value;
+    var msg=document.getElementById('l-msg'); msg.textContent='Entrando…';
+    sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+      if(r.error){ msg.textContent='Correo o contraseña incorrectos.'; return; }
+      msg.textContent=''; document.getElementById('l-pass').value=''; loginModal.classList.remove('show');
+    });
+  });
+
+  // ---- Nuevo / Editar / Eliminar ----
+  var editId=null;
+  function abrirForm(e){
+    editId=e?e.id:null;
+    document.getElementById('form-title').textContent=e?'Editar trabajo':'Nuevo trabajo';
+    document.getElementById('f-fecha').value=e?e.fecha:todayISO();
+    document.getElementById('f-hora').value=e?(e.hora||''):'';
+    document.getElementById('f-titulo').value=e?e.titulo:'';
+    document.getElementById('f-ubic').value=e?(e.ubic||''):'';
+    document.getElementById('f-desc').value=e?(e.desc||''):'';
+    document.getElementById('f-del').style.display=e?'':'none';
+    formModal.classList.add('show'); document.getElementById('f-titulo').focus();
+  }
+  document.getElementById('form-close').addEventListener('click',function(){ formModal.classList.remove('show'); });
+  formModal.addEventListener('click',function(ev){ if(ev.target===formModal) formModal.classList.remove('show'); });
+  document.getElementById('f-save').addEventListener('click',function(){
+    if(!sb) return;
+    var row={ fecha:document.getElementById('f-fecha').value, hora:document.getElementById('f-hora').value.trim(),
+      titulo:document.getElementById('f-titulo').value.trim(), ubicacion:document.getElementById('f-ubic').value.trim(),
+      categoria:'Trabajo', descripcion:document.getElementById('f-desc').value };
+    if(!row.fecha||!row.titulo){ alert('Fecha y título son obligatorios.'); return; }
+    var q = editId ? sb.from('eventos').update(row).eq('id',editId) : sb.from('eventos').insert(row);
+    q.then(function(r){ if(r.error){ alert('No se pudo guardar: '+r.error.message); return; } formModal.classList.remove('show'); cargarEventos(render); });
+  });
+  document.getElementById('f-del').addEventListener('click',function(){ if(editId && confirm('¿Eliminar este trabajo?')) eliminarEvento(editId); });
+  function eliminarEvento(id){ if(!sb) return; sb.from('eventos').delete().eq('id',id).then(function(r){ if(r.error){ alert('No se pudo eliminar.'); return; } formModal.classList.remove('show'); modal.classList.remove('show'); cargarEventos(render); }); }
+
+  document.getElementById('add').addEventListener('click',function(){
+    if(!authed){ document.getElementById('l-msg').textContent=''; loginModal.classList.add('show'); document.getElementById('l-email').focus(); return; }
+    abrirForm(null);
+  });
 
   render();
   cargarEventos(render);
