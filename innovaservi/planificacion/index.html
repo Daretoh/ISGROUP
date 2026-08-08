@@ -23,7 +23,7 @@
   /* Header */
   .pl-header{background:linear-gradient(135deg,#e05e00 0%,#ff6b00 55%,#ff8a2b 130%);color:#fff;padding:20px 24px;position:relative;overflow:hidden;}
   .pl-header::after{content:"";position:absolute;top:-40%;right:-5%;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,transparent 62%);}
-  .pl-header-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1;flex-wrap:wrap;}
+  .pl-header-in{max-width:1760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1;flex-wrap:wrap;}
   .pl-brand{display:flex;align-items:center;gap:12px;}
   .pl-brand img{height:42px;width:auto;filter:brightness(0) invert(1);}
   .pl-brand .t{font-weight:800;font-size:1.15rem;letter-spacing:.3px;}
@@ -32,7 +32,7 @@
   .pl-user .av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-weight:700;}
 
   /* Toolbar */
-  .pl-wrap{max-width:1280px;margin:0 auto;padding:22px 24px 60px;}
+  .pl-wrap{max-width:1760px;margin:0 auto;padding:20px 22px 60px;}
   .pl-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
   .pl-nav{display:flex;align-items:center;gap:10px;}
   .pl-nav button{border:1px solid var(--line);background:#fff;width:38px;height:38px;border-radius:10px;font-size:18px;cursor:pointer;color:var(--ink);transition:.2s;}
@@ -65,13 +65,8 @@
   .cell .dnum{font-size:.85rem;font-weight:700;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;margin-bottom:4px;}
   .cell.out .dnum{color:var(--muted);}
   .cell.today .dnum{background:var(--orange);color:#fff;}
-  .ev{display:block;width:100%;text-align:left;border:none;border-left:3px solid var(--c-otro);background:var(--alt);color:var(--ink);font:600 11.5px/1.3 var(--font);padding:4px 7px;border-radius:5px;margin-bottom:4px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.15s;}
-  .ev:hover{transform:translateX(2px);filter:brightness(.97);}
-  .ev.limp{border-left-color:var(--c-limp);background:#e9f6f8;}
-  .ev.obra{border-left-color:var(--c-obra);background:#fff1e6;}
-  .ev.gen{border-left-color:var(--c-gen);background:#e8f6ef;}
-  .ev.mant{border-left-color:var(--c-mant);background:#f0edff;}
-  .ev.otro{border-left-color:var(--c-otro);background:var(--alt);}
+  .ev{display:block;width:100%;text-align:left;border:none;border-left:3px solid var(--c-otro);background:var(--alt);color:var(--ink);font:600 10.5px/1.25 var(--font);padding:2px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.15s;}
+  .ev:hover{transform:translateX(2px);filter:brightness(.96);}
   .ev-more{font:700 11px var(--font);color:var(--orange-2);cursor:pointer;padding:2px 4px;}
 
   /* Vista semana: filas más altas */
@@ -156,13 +151,7 @@
       </div>
     </div>
 
-    <div class="pl-legend">
-      <span><i class="dot" style="background:var(--c-limp)"></i>Limpieza / Sanitización</span>
-      <span><i class="dot" style="background:var(--c-obra)"></i>Obras menores</span>
-      <span><i class="dot" style="background:var(--c-gen)"></i>Servicios generales</span>
-      <span><i class="dot" style="background:var(--c-mant)"></i>Mantención</span>
-      <span><i class="dot" style="background:var(--c-otro)"></i>Otro</span>
-    </div>
+    <div class="pl-legend" id="pl-legend"></div>
 
     <div class="cal" id="cal">
       <div class="cal-dow"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
@@ -213,25 +202,25 @@
 
 <script>
 (function(){
-  var CATS={ limp:{n:'Limpieza / Sanitización',c:'#17a2b8'}, obra:{n:'Obras menores',c:'#ff6b00'}, gen:{n:'Servicios generales',c:'#22a06b'}, mant:{n:'Mantención',c:'#7b61ff'}, otro:{n:'Otro',c:'#8b93a7'} };
+  // Color por CLIENTE (ubicación): colores de marca conocidos + color estable por nombre para el resto
+  var CLIENTE_COL={
+    'CERMAQ':'#00a7c4','KOMATSU':'#153fa6','CUMMINS':'#c8102e','MOWI':'#3a3a3a','VENTISQUEROS':'#0b3a5c',
+    'SKRETTING':'#e2231a','SEAGARDEN':'#0e7c5a','GREENSPOT':'#2fa84f','SAL LOBOS':'#8a1a2b','LOBOS':'#8a1a2b',
+    'PRIMAR':'#1f5aa8','VERISURE':'#e2231a','AUSTRALIS':'#173a5e','QUEMCHI':'#0f766e','REXIN':'#b8620a'
+  };
+  function hashCol(s){ var h=0; s=(s||'').toUpperCase(); for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return 'hsl('+(h%360)+',52%,42%)'; }
+  function clienteColor(u){ u=(u||'').trim().toUpperCase(); if(!u) return '#8b93a7'; for(var k in CLIENTE_COL){ if(u.indexOf(k)>=0) return CLIENTE_COL[k]; } return hashCol(u); }
+  function renderLegend(){ var seen={}, list=[]; EVENTS.forEach(function(e){ var u=(e.ubic||'').trim(); if(u && !seen[u.toUpperCase()]){ seen[u.toUpperCase()]=1; list.push(u); } }); list.sort(); var el=document.getElementById('pl-legend'); if(!el)return; el.innerHTML=list.map(function(u){ return '<span><i class="dot" style="background:'+clienteColor(u)+'"></i>'+esc(u)+'</span>'; }).join(''); }
   // ---- Datos reales desde Supabase (tabla eventos) ----
   var SB_URL='https://oabtbzrfgwadnooexdwd.supabase.co';
   var SB_KEY='sb_publishable_Uz01bxGvGArhB-h4KOvbqA_WtQg1zer';
   var sb=null; try{ if(window.supabase) sb=window.supabase.createClient(SB_URL,SB_KEY); }catch(e){}
   var authed=false, userEmail='';
   var EVENTS=[];
-  // Color por tipo de trabajo (a partir del título, ya que la categoría suele ser "Trabajo")
-  function catColor(t){ t=(t||'').toUpperCase();
-    if(/LIMPIEZA|LIMPIAR|SANITIZ|LAVAD|DESINFEC|ESTANQUE|C[ÁA]MARA|RILES|DUCTO|SILO|NIEVE|CAPTACION|ENTRETECHO|FACHADA/.test(t)) return 'limp';
-    if(/LOSA|HORMIGON|OBRA|INSTAL|PUERTA|CORTINA|RADIER|ESTRUCTURA|M[ÁA]STIL|CONSTRU|PARED|TECHO|EMPAVONAR|OFICINA|SALA|BICICLETERO|MALLA/.test(t)) return 'obra';
-    if(/DESMALEZ|MALEZA|PODA|C[ÉE]SPED|JARDIN|DESPEJE|SE[ÑN]AL[ÉE]TICA|DEMARCAC|MAQUINARIA|[ÁA]RIDO|FOSA|RETIRO|CORTE|VISITA|TRASLADO|MOVIMIENTO/.test(t)) return 'gen';
-    if(/REPARAC|MANTEN|CAMBIO|REVISION/.test(t)) return 'mant';
-    return 'otro';
-  }
   function cargarEventos(cb){
     if(!sb){ if(cb)cb(); return; }
     var all=[], chunk=1000;
-    function finish(){ EVENTS=all.map(function(e){ return { id:e.id, fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', cat:catColor(e.titulo), desc:e.descripcion||'' }; }); if(cb)cb(); }
+    function finish(){ EVENTS=all.map(function(e){ return { id:e.id, fecha:e.fecha, hora:e.hora||'', titulo:e.titulo||'', ubic:e.ubicacion||'', color:clienteColor(e.ubicacion), desc:e.descripcion||'' }; }); renderLegend(); if(cb)cb(); }
     function fetchFrom(off){
       sb.from('eventos').select('*').order('fecha',{ascending:true}).range(off, off+chunk-1).then(function(r){
         if(r.error){ console.warn('Supabase:',r.error.message); finish(); return; }
@@ -270,8 +259,8 @@
     }
     var tISO=todayISO();
     grid.innerHTML=cells.map(function(c){
-      var f=iso(c.d); var evs=evsDe(f); var max=(vista==='semana')?30:3;
-      var evHtml=evs.slice(0,max).map(function(e){ return '<button class="ev '+e.cat+'" data-id="'+e.id+'">'+esc(e.titulo)+'</button>'; }).join('');
+      var f=iso(c.d); var evs=evsDe(f); var max=(vista==='semana')?60:10;
+      var evHtml=evs.slice(0,max).map(function(e){ return '<button class="ev" data-id="'+e.id+'" style="border-left-color:'+e.color+'" title="'+enc(e.titulo)+(e.ubic?(' · '+e.ubic):'')+'">'+esc(e.titulo)+'</button>'; }).join('');
       if(evs.length>max) evHtml+='<div class="ev-more" data-f="'+f+'">+'+(evs.length-max)+' más</div>';
       return '<div class="cell'+(c.out?' out':'')+(f===tISO?' today':'')+'"><span class="dnum">'+c.d.getDate()+'</span>'+evHtml+'</div>';
     }).join('');
@@ -288,10 +277,10 @@
     var byDay={}; up.forEach(function(e){ (byDay[e.fecha]=byDay[e.fecha]||[]).push(e); });
     grid.innerHTML=Object.keys(byDay).sort().map(function(f){ var d=new Date(f+'T00:00:00');
       return '<div class="ag-day"><h4>'+DIAS[d.getDay()]+' '+d.getDate()+' de '+MES[d.getMonth()]+' '+d.getFullYear()+'</h4>'+
-        byDay[f].map(function(e){ var cat=CATS[e.cat]||CATS.otro;
-          return '<div class="ag-ev"><div class="bar" style="background:'+cat.c+'"></div><div class="info">'+
+        byDay[f].map(function(e){
+          return '<div class="ag-ev"><div class="bar" style="background:'+e.color+'"></div><div class="info">'+
             '<div class="tt">'+esc(e.titulo)+'</div>'+
-            '<div class="ag-meta">'+(e.ubic?('📍 '+esc(e.ubic)+' · '):'')+cat.n+'</div>'+
+            '<div class="ag-meta">'+(e.ubic?('📍 '+esc(e.ubic)):'')+(e.hora?(' · '+esc(e.hora)):'')+'</div>'+
             (e.desc?'<div class="ag-desc">'+esc(e.desc)+'</div>':'')+
           '</div></div>';
         }).join('')+'</div>';
@@ -303,13 +292,12 @@
   var modal=document.getElementById('modal');
   function abrir(id){
     var e=EVENTS.filter(function(x){return String(x.id)===String(id);})[0]; if(!e)return;
-    var cat=CATS[e.cat]||CATS.otro; var d=new Date(e.fecha+'T00:00:00');
-    document.getElementById('modal-head').style.background='linear-gradient(135deg,'+cat.c+',#0c0f2e)';
+    var d=new Date(e.fecha+'T00:00:00');
+    document.getElementById('modal-head').style.background='linear-gradient(135deg,'+e.color+',#0c0f2e)';
     document.getElementById('modal-title').textContent=e.titulo;
     document.getElementById('modal-body').innerHTML=
       '<div class="row">📅 <b>'+d.getDate()+' de '+MES[d.getMonth()]+' '+d.getFullYear()+'</b>'+(e.hora?' · '+esc(e.hora):'')+'</div>'+
-      '<div class="row">🏷️ <span class="cat-chip" style="background:'+cat.c+'">'+cat.n+'</span></div>'+
-      (e.ubic?'<div class="row">📍 Ubicación: <b>'+esc(e.ubic)+'</b></div>':'')+
+      (e.ubic?'<div class="row">📍 Cliente: <span class="cat-chip" style="background:'+e.color+'">'+esc(e.ubic)+'</span></div>':'')+
       (e.desc?'<div class="pl-desc">'+esc(e.desc)+'</div>':'')+
       (authed?'<div class="fbtns" style="margin-top:14px"><button class="pl-del-btn" id="det-del">Eliminar</button><button class="pl-add" id="det-edit">✎ Editar</button></div>':'');
     modal.classList.add('show');
@@ -322,7 +310,8 @@
     var evs=evsDe(f); if(!evs.length)return; var d=new Date(f+'T00:00:00');
     document.getElementById('modal-head').style.background='linear-gradient(135deg,var(--navy),#0c0f2e)';
     document.getElementById('modal-title').textContent=d.getDate()+' de '+MES[d.getMonth()];
-    document.getElementById('modal-body').innerHTML=evs.map(function(e){ var cat=CATS[e.cat]||CATS.otro; return '<div class="row"><span class="cat-chip" style="background:'+cat.c+'">&nbsp;</span> '+esc(e.titulo)+(e.ubic?(' · '+esc(e.ubic)):'')+'</div>'; }).join('');
+    document.getElementById('modal-body').innerHTML=evs.map(function(e){ return '<div class="row" style="cursor:pointer" data-goid="'+e.id+'"><span class="cat-chip" style="background:'+e.color+'">&nbsp;</span> '+esc(e.titulo)+(e.ubic?(' · '+esc(e.ubic)):'')+'</div>'; }).join('');
+    modal.querySelectorAll('[data-goid]').forEach(function(r){ r.addEventListener('click',function(){ abrir(r.dataset.goid); }); });
     modal.classList.add('show');
   }
   document.getElementById('modal-close').addEventListener('click',function(){ modal.classList.remove('show'); });
